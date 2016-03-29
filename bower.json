@@ -1,0 +1,18 @@
+{
+  "name": "gOrilla",
+  "description": "gOrilla",
+  "main": "server/server.js",
+  "authors": [
+    "marko911 <marko.barca10@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "none",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

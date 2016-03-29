@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+
+@font-face {
+    font-family: 'layouts';
+    src:    url('../fonts/layouts/layouts.eot?lngtbi');
+    src:    url('../fonts/layouts/layouts.eot?lngtbi#iefix') format('embedded-opentype'),
+        url('../fonts/layouts/layouts.ttf?lngtbi') format('truetype'),
+        url('../fonts/layouts/layouts.woff?lngtbi') format('woff'),
+        url('../fonts/layouts/layouts.svg?lngtbi#layouts') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'layouts' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-gambler:before {
+    content: "\e901";
+}
+.icon-balanced:before {
+    content: "\e900";
+}
+
+
+.bt-icon:before,
+.bt-icon-alt:before {
+  font-family: "minicons-webalys";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none !important;
+  speak: none;
+  display: inline-block;
+  text-decoration: none;
+  width: 1em;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+

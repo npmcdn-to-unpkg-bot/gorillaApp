@@ -1,0 +1,62 @@
+<div style="height:100%" class="u-full-width">
+    <div style="height:100%" class="bal-wrapper">
+        <div class="row">
+            <!-- LEFT COLUMN        
+                     -->
+            <div class="col-bal column">
+                <div class="col-wrap">
+                    <div class="news-selector u-full-width content-col ">
+                        <div class="option-box" options-box articles="ctrl.articles" select="ctrl.select" load-source="ctrl.loadSource()">
+                        </div>
+                       
+                      
+                    </div>
+                    <div class="scroll-col gamb-col-container" id="scrollWindow">
+                        <div>
+                            <ul id="scrollList" class="article-list">
+                                <li class="entry" ng-repeat="article in ctrl.articles track by $index">
+                                    <div class="article-wrap">
+                                        <img src="assets/img/article-id-hover.png">
+                                        <div class="icon-id"></div>
+                                        <div class="article">
+                                            <a ng-href="{{article.link}}" title-trim article="article" target="_blank"></a>
+                                           
+                                        </div>
+                                         <div ng-if="ctrl.select=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                                    </div>
+                                </li>
+                                <!--                             </div>
+ --><span id="lastElement"></span>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT COLUMN                   -->
+            <div class="two-thirds column">
+                <div class="scroll-col gamb-col-container" id="mediaScroll">
+                    <ul class="media-list u-full-width" id="mediaList">
+                        <li class="media-entry " ng-class="{'ig-height':ctrl.artSrv.mediaSelect=='IG'}" ng-repeat="post in ctrl.media track by $index">
+                            <a ng-href="{{post.link}}" target="_blank" >
+                                <a ng-click="ctrl.mediaOpen(post)">
+                                    <div class="media-wrap">
+                                        <div class="gradient">
+                                            <div class="media-title">
+                                                <p>{{post.title}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="media-border-hover"></div>
+                                        <div class="gradient-top-border"></div>
+                                        <img ng-src="{{post.thumbnail}}">
+                                    </div>
+                                </a>
+                            </a>
+                            <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{post.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                        </li>
+                        <span id="lastMedia"></span>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

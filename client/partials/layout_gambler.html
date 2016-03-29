@@ -1,0 +1,174 @@
+<div class="u-full-width">
+    <div class="gamb-top-half">
+        <div class="row">
+            <!-- LEFT COLUMN                 -->
+            <div class="one-third column ">
+                <div class="col-wrap">
+                    <div class="news-selector u-full-width content-col ">
+                        <div class="option-box" options-box articles="ctrl.articles[0]" select="ctrl.select1" load-source="ctrl.loadSource(1)">
+                        </div>
+                    </div>
+                    <div class="scroll-col gamb-col-container" id='gamb1'>
+                        <ul class="article-list">
+                            <li class="entry" ng-repeat="article in ctrl.articles[0] track by $index">
+                                <div class="article-wrap">
+                                    <img src="assets/img/article-id-hover.png">
+                                    <div class="icon-id"></div>
+                                    <div class="article">
+                                        <a ng-href="{{article.link}}" target="_blank">{{article.title}}</a>
+                                    </div>
+                                    <div ng-if="ctrl.select1=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                                </div>
+                            </li>
+                            <span id="lastElement1"></span>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- MIDDLE COLUMN  -->
+            <div class="one-third column ">
+                <div class="col-wrap">
+                    <div class="news-selector u-full-width content-col ">
+                        <div class="option-box" options-box articles="ctrl.articles[1]" select="ctrl.select2" load-source="ctrl.loadSource(2)">
+                        </div>
+                    </div>
+                    <div class="scroll-col gamb-col-container" id='gamb2'>
+                        <ul class="article-list">
+                            <li class="entry" ng-repeat="article in ctrl.articles[1] track by $index">
+                                <div class="article-wrap">
+                                    <img src="assets/img/article-id-hover.png">
+                                    <div class="icon-id"></div>
+                                    <div class="article">
+                                        <a ng-href="{{article.link}}" target="_blank">{{article.title}}</a>
+                                    </div>
+                                    <div ng-if="ctrl.select2=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                                </div>
+                            </li>
+                            <span id="lastElement2"></span>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT COLUMN -->
+            <div class="one-third column">
+                <div class="col-wrap">
+                    <div class="news-selector u-full-width content-col ">
+                        <div class="option-box" options-box articles="ctrl.articles[2]" select="ctrl.select3" load-source="ctrl.loadSource(3)">
+                        </div>
+                    </div>
+                    <div class="scroll-col gamb-col-container" id="gamb3">
+                        <ul class="article-list">
+                            <li class="entry" ng-repeat="article in ctrl.articles[2] track by $index">
+                                <div class="article-wrap">
+                                    <img src="assets/img/article-id-hover.png">
+                                    <div class="icon-id"></div>
+                                    <div class="article">
+                                        <a ng-href="{{article.link}}" target="_blank">{{article.title}}</a>
+                                    </div>
+                                    <div ng-if="ctrl.select3=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                                </div>
+                            </li>
+                            <span id="lastElement3"></span>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Gallery Slider -->
+    <div class="gamb-bottom-half">
+        <uib-carousel active="active" id="gamb4">
+            <uib-slide ng-repeat="slide in ctrl.slides track by $index">
+                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                    <a ng-click="ctrl.mediaOpen(slide[0])">
+                        <div class="media-wrap">
+                            <div class="gradient">
+                                <div class="media-title">
+                                    <p>{{slide[0].title}}</p>
+                                </div>
+                            </div>
+                            <div class="media-border-hover"></div>
+                            <div class="gradient-top-border"></div>
+                            <img ng-src="{{slide[0].thumbnail}}">
+                        </div>
+                    </a>
+                    <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[0].comments}}" target="_blank"><i class="fa fa-comments"></i>
+</a></div>
+                </div>
+                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                    <a ng-click="ctrl.mediaOpen(slide[1])">
+                        <div class="media-wrap">
+                            <div class="gradient">
+                                <div class="media-title">
+                                    <p>{{slide[1].title}}</p>
+                                </div>
+                            </div>
+                            <div class="media-border-hover"></div>
+                            <div class="gradient-top-border"></div>
+                            <img ng-src="{{slide[1].thumbnail}}">
+                        </div>
+                    </a>
+                    <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[1].comments}}" target="_blank"><i class="fa fa-comments"></i>
+</a></div>
+                </div>
+                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                    <a ng-click="ctrl.mediaOpen(slide[2])">
+                        <div class="media-wrap">
+                            <div class="gradient">
+                                <div class="media-title">
+                                    <p>{{slide[2].title}}</p>
+                                </div>
+                            </div>
+                            <div class="media-border-hover"></div>
+                            <div class="gradient-top-border"></div>
+                            <img ng-src="{{slide[2].thumbnail}}">
+                        </div>
+                    </a>
+                    <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[2].comments}}" target="_blank"><i class="fa fa-comments"></i>
+</a></div>
+                </div>
+                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}" ng-if="ctrl.artSrv.mediaSelect=='IG'">
+                    <a ng-click="ctrl.mediaOpen(slide[3])">
+                        <div class="media-wrap">
+                            <div class="gradient">
+                                <div class="media-title">
+                                    <p>{{slide[3].title}}</p>
+                                </div>
+                            </div>
+                            <div class="media-border-hover"></div>
+                            <div class="gradient-top-border"></div>
+                            <img ng-src="{{slide[3].thumbnail}}">
+                        </div>
+                    </a>
+                </div>
+                <span id="lastElement4" ng-if="$last"></span>
+
+            </uib-slide>
+        </uib-carousel>
+    </div>
+</div>
+<!-- 
+
+
+
+  <div class="scroll-col gamb-col-container" id='gamb4'>
+            <ul class="media-list u-full-width">
+                <li class="gamb-media " ng-repeat="post in ctrl.media">
+                    <a ng-click="ctrl.mediaOpen(post)">
+                        <div class="media-wrap">
+                            <div class="gradient">
+                                <div class="media-title">
+                                    <p>{{post.title}}</p>
+                                </div>
+                            </div>
+                            <div class="media-border-hover"></div>
+                            <div class="gradient-top-border"></div>
+                            <img ng-src="{{post.thumbnail}}">
+                        </div>
+                    </a>
+                    <div class="comments-icon"><a href="{{post.comments}}" target="_blank"><i class="fa fa-comments"></i>
+</a></div>
+                </li>
+                <span id="lastElement4"></span>
+            </ul>
+        </div> -->

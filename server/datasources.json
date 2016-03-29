@@ -1,0 +1,11 @@
+{
+  "articleIDs": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "articleIDs",
+    "username": "",
+    "password": "",
+    "name": "articleIDs",
+    "connector": "mongodb"
+  }
+}
