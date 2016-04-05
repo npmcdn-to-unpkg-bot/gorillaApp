@@ -3,7 +3,8 @@ function scrape(app) {
     var Article = app.models.Article;
     var scrape = new Xray();
     var author = require("./addAuthor.js");
-
+    var request = require('request');
+    var base_url = require('./baseurl.js');
     var links = null;
     var i = 0;
 
@@ -30,9 +31,15 @@ function scrape(app) {
                     obj = obj.splice(0, obj.length - 6);
 
                     links = obj;
+                    links.reverse();
+
                     author.addAuthor(app, i, function cb() {
                         i++;
                         if (i > links.length - 1) {
+                            request(base_url + '/Articles?filter[where][source]=THE%20INDEPENDENT&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                                var parsed = JSON.parse(body);
+                                app.io.emit('_articles', parsed);
+                            });
                             return;
                         }
                         return author.addAuthor(app, i, cb, links, Article, 'li.author a', 'THE INDEPENDENT');

@@ -3,7 +3,6 @@ function scrape(app) {
     var Article = app.models.Article;
     var Social = app.models.Social;
     var request = require('request');
-    var https = require('https');
     var domain = 'https://api.instagram.com/v1/users/';
     var token = '8619424.1fb234f.7269466246614d66b271705b4ec43707';
 
@@ -45,7 +44,7 @@ function scrape(app) {
                         link: post.link,
                         name: post.user.username,
                         type: post.type,
-                        source: 'ig',
+                        source: 'IG',
                         thumbnail: post.images.standard_resolution.url,
                         added: post.created_time
                     };
@@ -56,9 +55,7 @@ function scrape(app) {
 
                     Social.create(item, function(err, res) {
                         if (err) {
-                            console.log('error:', err.message);
                         } else {
-                            console.log('added ig post', res);
                             app.io.emit('socket_media', res);
 
                         }
@@ -67,7 +64,6 @@ function scrape(app) {
                 })
 
             } else {
-                console.log('errrr', err);
             }
         });
 

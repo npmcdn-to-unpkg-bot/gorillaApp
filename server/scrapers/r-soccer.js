@@ -2,12 +2,48 @@ function scrape(app) {
     var Article = app.models.Article;
     var Media = app.models.Media;
     var request = require('request');
+    var base_url = require('./baseurl.js');
+    var i=0;
+    var addEntry = function(i, links, cb) {
 
-    request('https://www.reddit.com/r/soccer/hot/.json?limit=50', function(err, response, body) {
+        var where = {
+            where: {
+                link: links[i].link
+            }
+        };
 
-        if (!(/servers are busy/.test(body)) && !(/unknown error/.test(body)) && body!=undefined) {
-            console.log('catching reddit error:',body);
+        Article.findOne(where, function(err, instance) {
+            if (!err && instance != null) {
+                Article.destroyById(instance.id, function(err) {
+                    if (!err) {
+                        Article.create(links[i], function(err, res) {
+                            if (err) {} else {
+                                cb();
+                            }
+
+                        });
+                    }
+                });
+
+
+            } else {
+                Article.create(links[i], function(err, res) {
+                    if (err) {
+                    } else {
+                        cb();
+                    }
+                });
+            }
+
+        });
+
+    }
+
+    request('https://www.reddit.com/r/soccer/hot/.json?limit=40', function(err, response, body) {
+
+        if (!(/servers are busy/.test(body)) && !(/unknown error/.test(body)) && body != undefined && !err) {
             var list = JSON.parse(body).data.children;
+            var links = [];
 
             list.forEach(function(item) {
                 if (!(/gfycat/.test(item.data.domain)) && !(/streamable/.test(item.data.domain)) && !(/youtu/.test(item.data.domain)) && !(/abload/.test(item.data.domain))) {
@@ -18,28 +54,21 @@ function scrape(app) {
                         count: 0,
                         source: 'REDDIT',
                         comments: 'http://www.reddit.com' + item.data.permalink,
-
+                        num_comments: item.data.num_comments,
+                        score: item.data.score
 
                     };
-                    Article.create(post, function(err, res) {
+                    links.push(post);
 
-                        if (err) {
-                            console.log('error:', err.message);
-                        } else {
-                            console.log('added article', res.title);
-                            app.io.emit('scrape_complete', res);
-
-                        }
-
-                    });
                 } else {
 
                     var post = {
                         title: item.data.title,
                         link: item.data.url,
                         comments: 'http://www.reddit.com' + item.data.permalink,
+                        num_comments: item.data.num_coments,
                         score: item.data.score,
-                        source:'REDDIT',
+                        source: 'REDDIT',
                         count: 0
                     };
 
@@ -47,16 +76,10 @@ function scrape(app) {
                         post.thumbnail = item.data.media.oembed.thumbnail_url;
                     }
 
-                    if (post.title.length > 48) {
-                        post.title = post.title.substr(0, 48) + '...';
-                        console.log(item.link);
-                    }
                     Media.create(post, function(err, res) {
 
                         if (err) {
-                            console.log('error:', err.message);
                         } else {
-                            console.log('added THUMBNAIL ', res.title);
                             app.io.emit('socket_media', res);
 
                         }
@@ -66,10 +89,24 @@ function scrape(app) {
 
 
             });
+            links.reverse();
+
+            addEntry(i, links, function cb() {
+                i++;
+                if (i == links.length) {
+                    request(base_url + '/Articles?filter[where][source]=REDDIT&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                        var parsed = JSON.parse(body);
+                        app.io.emit('_articles', parsed);
+                    });
+                    return;
+                }
+                return addEntry(i, links, cb);
+            });
         }
 
 
     });
+
 
 }
 

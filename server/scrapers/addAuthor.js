@@ -4,18 +4,17 @@ var addAuthor = function(app, i, cb, links, article, selector, source) {
     var Xray = require("x-ray");
     var Article = article;
     var scrape = new Xray();
-
+    
+   console.log('link to be tried',links[i]);
     scrape(links[i].link, selector)(function(err2, res) {
-        if (err2) {
-            console.log('error found:', err2)
-        }
+
         if (!err2) {
-            console.log('attempting link:', links[i].link);
 
             res = res.replace(/By/, "");
             var regex = /[a-zA-Z]+ [a-zA-Z]+/g;
             var name = regex.exec(res)[0];
             links[i].author = name;
+
             var articleInstance = {
                 title: links[i].title,
                 link: links[i].link,
@@ -23,36 +22,90 @@ var addAuthor = function(app, i, cb, links, article, selector, source) {
                 source: source,
                 count: 0
             }
-            Article.create(articleInstance, function(err, res) {
-                if (err) {
-                    console.log('error for article ',res.source,'  ', res.title, 'IS:', err.name);
-                } else {
-                    console.log('added article', res.title);
-                    app.io.emit('scrape_complete',res);
+            var where = {
+                where: {
+                    link: links[i].link
+                }
+            };
+            Article.findOne(where, function(err, instance) {
+                if (!err && instance != null) {
+                    Article.destroyById(instance.id, function(err) {
+                        if (!err) {
+                            Article.create(articleInstance, function(err, res) {
+                                if (err) {} else {}
 
+                                cb();
+
+                            });
+                        }
+                    });
+
+
+                } else {
+                    Article.create(articleInstance, function(err, res) {
+                        if (err) {} else {
+
+                        }
+
+                        cb();
+
+                    });
                 }
 
-                cb();
-
             });
+
+
         } else {
-            console.log('no author found');
+
+            if (links[i].source == "ESPNFC") {
+                var author = 'ESPN staff';
+            } else if (links[i].source == "BBC") {
+                var author = 'na';
+
+            } else {
+                var author = "Staff";
+            }
+
             var articleInstance = {
                 title: links[i].title,
                 link: links[i].link,
-                author: 'n/a',
+                author: author,
                 source: source,
                 count: 0
             }
-            Article.create(articleInstance, function(err, res) {
-                if (err) {
-                    console.log('error is: ', err.name);
-                } else {
-                    console.log('added article', res.title);
-                    app.io.emit('scrape_complete',res);
 
+            var where = {
+                where: {
+                    link: links[i].link
                 }
-                cb();
+            };
+            Article.findOne(where, function(err, instance) {
+                if (!err && instance != null) {
+                    Article.destroyById(instance.id, function(err) {
+                        if (!err) {
+                            Article.create(articleInstance, function(err, res) {
+                                if (err) {} else {
+
+                                }
+
+                                cb();
+
+                            });
+                        }
+                    });
+
+
+                } else {
+                    Article.create(articleInstance, function(err, res) {
+                        if (err) {} else {
+
+                        }
+
+                        cb();
+
+                    });
+                }
+
 
             });
         }

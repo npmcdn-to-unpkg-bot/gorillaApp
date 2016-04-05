@@ -7,6 +7,58 @@ function scrape(app) {
     var links = null;
     var i = 0;
 
+    var request = require('request');
+    var base_url = require('./baseurl.js');
+
+    var addEntry = function(i, links, cb) {
+
+        var where = {
+            where: {
+                link: links[i].link
+            }
+        };
+
+        Article.findOne(where, function(err, instance) {
+            if (!err && instance != null) {
+                Article.destroyById(instance.id, function(err) {
+                    if (!err) {
+                        var item = {
+                            title: links[i].title,
+                            link: links[i].link,
+                            author: 'Staff',
+                            source: 'FOOTBALL 365',
+                            count: 0
+                        }
+                        Article.create(item, function(err, res) {
+                            if (err) {} else {
+                                cb();
+                            }
+
+                        });
+                    }
+                });
+
+
+            } else {
+                var item = {
+                    title: links[i].title,
+                    link: links[i].link,
+                    author: 'Staff',
+                    source: 'FOOTBALL 365',
+                    count: 0
+                }
+                Article.create(item, function(err, res) {
+                    if (err) {
+                    } else {
+                        cb();
+                    }
+                });
+            }
+
+        });
+
+    }
+
     // 4 scrapes for 4 different parts of the page 
     scrape('http://www.football365.com/all-the-news', '.hero__figure', [{
         title: '.hero__figcaption h2',
@@ -34,26 +86,20 @@ function scrape(app) {
                                     });
 
                                     links = links.concat(obj2).concat(obj4).concat(obj3);
+                                    links.reverse();
 
-                                    links.forEach(function(link) {
-                                        var item = {
-                                            title: link.title,
-                                            link: link.link,
-                                            author: 'Staff',
-                                            source: 'FOOTBALL 365',
-                                            count: 0
+                                    addEntry(i, links, function cb() {
+                                        i++;
+                                        if (i == links.length) {
+                                            request(base_url + '/Articles?filter[where][source]=FOOTBALL%20365&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                                                var parsed = JSON.parse(body);
+                                                app.io.emit('_articles', parsed);
+                                            });
+                                            return;
                                         }
-                                        Article.create(item, function(err, res) {
-                                            if (!err) {
-                                                console.log('added article', res);
-                                                app.io.emit('scrape_complete', res);
+                                        return addEntry(i, links, cb);
+                                    });
 
-                                            } else {
-                                                console.log('error:', err);
-                                            }
-
-                                        });
-                                    })
                                 }
                             });
                         }

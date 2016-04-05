@@ -9,7 +9,6 @@ module.exports = function(server) {
             socket.emit('socket_connected',{msg:'socket connected'});
         });
         var bbc = require('./../scrapers/bbc.js');
-        var dirtytackle = require('./../scrapers/dirtytackle.js');
         var espnfc = require('./../scrapers/espnfc.js');
         var eurosport = require('./../scrapers/eurosport.js');
         var football_espana = require('./../scrapers/football-espana.js');
@@ -23,32 +22,29 @@ module.exports = function(server) {
         var ig = require('./../scrapers/ig.js');
 
         var redditInterval=20000;
-        var interval=60000;
+        var interval=120000;
         // TIMERS --------------------
         var espnTimer =   setInterval(function() {
             espnfc(server)
-        }, interval);
-        var dirtyackleTimer = setInterval(function() {
-            dirtytackle(server)
-        }, interval);
+        }, 180000);
         var bbcTimer = setInterval(function() {
             bbc(server)
-        }, interval);
+        }, 250000);
         var eurosportTimer = setInterval(function() {
             eurosport(server)
         }, interval);
         var espanaTimer = setInterval(function() {
             football_espana(server)
-        }, interval);
+        }, 300000);
         var italiaTimer = setInterval(function() {
             football_italia(server)
-        }, interval);
+        }, 300000);
         var f36gTimer = setInterval(function() {
             f365(server)
-        }, interval);
+        }, 600000);
         var guardianTimer = setInterval(function() {
             guardian(server)
-        }, interval);
+        }, 400000);
         var independentTimer = setInterval(function() {
             independent(server)
         }, interval);
@@ -57,13 +53,13 @@ module.exports = function(server) {
         }, redditInterval);
         var skyTimer = setInterval(function() {
             sky(server)
-        }, interval);
+        }, 500000);
         var teleTimer = setInterval(function() {
             telegraph(server)
-        }, interval);
+        }, 360000);
         var igTimer = setInterval(function() {
             ig(server)
-        }, interval);
+        }, 600000);
 
     }
 };

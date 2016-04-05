@@ -4,14 +4,55 @@ function scrape(app) {
     var Xray = require("x-ray");
     var scrape = new Xray();
     var noodle = require('noodlejs');
-
+    var request = require('request');
+    var base_url = require('./baseurl.js');
 
     var links = null;
     var i = 0;
 
+    var addEntry = function(i, links, cb) {
+
+        var where = {
+            where: {
+                link: links[i].link
+            }
+        };
+
+        Article.findOne(where, function(err, instance) {
+            if (!err && instance != null) {
+                Article.destroyById(instance.id, function(err) {
+                    if (!err) {
+
+                        Article.create(links[i], function(err, res) {
+                            if (err) {} else {
+                                cb();
+                            }
+
+                        });
+                    }
+                });
+
+
+            } else {
+
+
+                Article.create(links[i], function(err, res) {
+                    if (err) {
+                    } else {
+                        cb();
+                    }
+                });
+            }
+
+        });
+
+    }
+
     //using existing non-official sky api
     request('https://skysportsapi.herokuapp.com/sky/getnews/football/v1.0/', function(error, response, body) {
         links = [];
+        if (error) {
+        }
         if (!error && response.statusCode == 200) {
 
             JSON.parse(body).forEach(function(item) {
@@ -30,33 +71,39 @@ function scrape(app) {
                     extract: 'text'
                 })
                     .then(function(res) {
-                        link.author = res.results[0].results[0].replace(/By /, "");
-                        console.log(link);
-                        var item = {
-                            title: link.title,
-                            link: link.link,
-                            author: link.author,
-                            source: 'SKY SPORTS',
-                            count: 0
+                        if (!res.results[0].error) {
+                            link.author = res.results[0].results[0].replace(/By /, "");
                         }
-                        Article.create(item, function(err, res) {
-                            
-                            if (!err) {
-                                console.log('added article', res);
-                                app.io.emit('scrape_complete', res);
+                        else {
+                            link.author="na";
+                        }
+                        link.source = 'SKY SPORTS';
+                        link.count = 0;
 
-                            } else {
-                                console.log('error:', err);
-                            }
-
-                        });
                     });
             })
+
+            links.reverse();
+
+            addEntry(i, links, function cb() {
+                i++;
+                if (i == links.length) {
+                    request(base_url + '/Articles?filter[where][source]=SKY%20SPORTS&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                        var parsed = JSON.parse(body);
+                        app.io.emit('_articles', parsed);
+                    });
+                    return;
+                }
+                return addEntry(i, links, cb);
+            });
+
 
         }
 
 
     });
+
+
 
 }
 module.exports = scrape;
