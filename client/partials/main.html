@@ -1,3 +1,6 @@
+<head>
+ 
+</head>
 <header class="nav-main u-full-width">
     <div>
         <!--         <img src="assets/img/gorilla-main-logo.png" class="logo-header">
@@ -7,19 +10,21 @@
 <nav id="bt-menu" class="bt-menu">
     <a ng-click="ctrl.trigger()" class="bt-menu-trigger"><span>Menu</span></a>
     <ul>
-
-        <li ng-class="{'layout-selected':ctrl.selectModel==1}"><h4>Balanced</h4><a ng-click="ctrl.changeLayout(1)" class="icon-balanced"></a></li>
-        <li ng-class="{'layout-selected':ctrl.selectModel==2}"><h4>Gambler</h4><a ng-click="ctrl.changeLayout(2)" class="icon-gambler"></a></li>
-        
+        <li ng-class="{'layout-selected':ctrl.artSrv.layoutSelect==1}">
+            <h4>Balanced</h4>
+            <a ng-click="ctrl.changeLayout(1)" class="icon-balanced"></a>
+        </li>
+        <li ng-class="{'layout-selected':ctrl.artSrv.layoutSelect==2}">
+            <h4>Gambler</h4>
+            <a ng-click="ctrl.changeLayout(2)" class="icon-gambler"></a>
+        </li>
     </ul>
-
     <ul>
-        <li><h4 ng-click="ctrl.loadMedia('REDDIT')">REDDIT</h4></li>
-        <li><h4 ng-click="ctrl.loadMedia('IG')">IG</h4></li>
+        <li>
+             <a ng-click="ctrl.loadMedia('REDDIT')" class="icon-reddit"></a></li>
+        <li>
+            <a ng-click="ctrl.loadMedia('IG')" class="icon-ig">IG</a></li>
     </ul>
-
-
 </nav>
-
 <!-- <div style="position:absolute;top:0;right:0;"><button ng-click="ctrl.changeLayout(1)">Bal</button><button ng-click="ctrl.changeLayout(2)">Gamb</button></div> -->
 <div class="main" ui-view></div>

@@ -3,7 +3,7 @@
         .controller('balancedCtrl', BalancedCtrl)
 
 
-    function BalancedCtrl($http, api, artSrv, articles, media, $uibModal, socket, $window,$scope) {
+    function BalancedCtrl($http, api, artSrv, articles, media, $uibModal, socket, $window, $scope) {
 
         var ctrl = this;
         ctrl.http = $http;
@@ -24,13 +24,15 @@
         enableListeners();
 
 
-
         setTimeout(function() {
 
             document.getElementById('scrollWindow').onscroll = function() {
                 console.log('scrolling');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement')) {
-                    ctrl.loadNext();
+                    $('#lastElement').remove();
+                    setTimeout(function() {
+                        ctrl.loadNext();
+                    }, 1000);
                 }
             }
             document.getElementById('mediaScroll').onscroll = function() {
@@ -43,16 +45,23 @@
 
         });
 
+       
 
-        
+        $scope.$on("$viewContentLoaded", function() {
+            sr.reveal('.sr.media-entry',{ duration: 4000 },{
+        container: '.media-list'
+            });
+            console.log('reveal hit');
+        });
+
+
 
         function loadNext() {
             console.log('LOADING NEXT');
-            ctrl.api.request('/Articles?filter[where][source]=' + ctrl.select + '&filter[skip]=' + ctrl.skipCount + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+            ctrl.api.request('/Articles?filter[where][source]=' + ctrl.select + '&filter[skip]=' + ctrl.skipCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
                 console.log('attempted to load next');
                 ctrl.articles = ctrl.articles.concat(res.data);
                 ctrl.skipCount += 30;
-                $('#lastElement').remove();
                 $('#scrollList').append('<span id="lastElement"></span>');
 
             });
@@ -72,26 +81,20 @@
 
         function enableListeners() {
 
-            ctrl.socket.on('scrape_complete', function(data) {
-                console.log('NEW ARTICLE COMING!');
-                console.log(data);
-                if (ctrl.select == data.source) {
-                    var exists = false;
-                    ctrl.articles.forEach(function(item) {
-                        if (item.link == data.link) {
-                            exists = true;
-                        }
-                    });
-                    if (!exists) {
-                        ctrl.articles.unshift(data);
-                    }
+            ctrl.socket.on('_articles', function(data) {
+                data.splice(30);
+                console.log('live update current select', ctrl.select);
+                if (ctrl.select == data[0].source) {
+                    console.log('article live update');
+                    ctrl.articles = data.concat(ctrl.articles);
+                    ctrl.articles.splice(data.length - 1, data.length);
 
                 }
             });
 
             ctrl.socket.on('socket_media', function(data) {
                 console.log('NEW MEDIA COMING!', data);
-                if (ctrl.mediaSelect == data.source) {
+                if (ctrl.artSrv.mediaSelect == data.source) {
                     var hasAdded = false;
                     ctrl.media.forEach(function(item) {
                         if (item.link == data.link) {
@@ -109,17 +112,17 @@
 
         function loadNextMedia() {
             console.log('LOADING');
-            if (ctrl.mediaSelect == 'REDDIT') {
-                ctrl.api.request('/Media?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
-                    console.log("loading next media:", res);
+            if (ctrl.artSrv.mediaSelect == 'REDDIT') {
+                ctrl.api.request('/Media?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+                    console.log("loading next media:", res.data);
                     ctrl.media = ctrl.media.concat(res.data);
                     ctrl.skipMediaCount += 30;
                     $('#lastMedia').remove();
                     $('#mediaList').append('<span id="lastMedia"></span>');
 
                 });
-            } else {
-                ctrl.api.request('/socials?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+            } else if (ctrl.artSrv.mediaSelect == 'IG') {
+                ctrl.api.request('/socials?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
                     var next = [];
                     next = res.data.map(function(item) {
                         if (!item.thumbnail) {
@@ -200,7 +203,7 @@
         };
 
 
-           $scope.$watch(function() {
+        $scope.$watch(function() {
             return ctrl.artSrv.media;
         }, function() {
 

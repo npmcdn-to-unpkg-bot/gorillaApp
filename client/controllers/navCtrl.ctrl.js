@@ -7,17 +7,16 @@
         var ctrl = this;
         ctrl.$state = $state;
         ctrl.changeLayout = changeLayout;
-        ctrl.selectModel = 1;
         ctrl.artSrv = artSrv;
         ctrl.loadMedia=loadMedia;
 
         function changeLayout(id) {
             if (id == 1) {
-                ctrl.selectModel = 1;
+                ctrl.artSrv.layoutSelect = 1;
                 ctrl.$state.go('home.balanced');
             }
             if (id == 2) {
-                ctrl.selectModel = 2;
+                ctrl.artSrv.layoutSelect = 2;
                 ctrl.$state.go('home.gambler');
             }
         }

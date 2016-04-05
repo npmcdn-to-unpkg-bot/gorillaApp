@@ -27,6 +27,13 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-reddit:before {
+    content: "\e902";
+}
+.icon-ig:before {
+    content: "\e903";
+}
+
 .icon-gambler:before {
     content: "\e901";
 }

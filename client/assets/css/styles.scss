@@ -55,7 +55,7 @@ body {
             /*            color: #EDCE4F;
 */
         }
-        font-size:12px;
+        font-size:13px;
     }
 }
 
@@ -164,7 +164,7 @@ h1 {
     .gamb-col-container {
         width: 100%;
     }
-    padding-right: 27px;
+    padding-right: 38px;
 }
 
 .row {
@@ -537,8 +537,15 @@ ul.options {
     height: 286px;
     top:auto;
     &.right{
-        right:40px;
-        background-image: linear-gradient(to right,rgba(0,0,0,.0001) 0,rgba(0,0,0,.1) 100%);
+        right:60px;
+        width: 5%;
+        background-image: linear-gradient(to right,rgba(0,0,0,.01) 0,rgba(0,0,0,.01) 100%);
+    }
+    &.left{
+        left:60px;
+        width: 5%;
+   background-image: linear-gradient(to left,rgba(0,0,0,.01) 0,rgba(0,0,0,.01) 100%);
+
     }
 
 }

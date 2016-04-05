@@ -8,16 +8,20 @@
     <link rel="stylesheet" type="text/css" href="assets/css/vendor/skeleton/normalize.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/vendor/angular-material.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/icons.css">
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style4.css">
-</head>
-
-<body ng-app="gorilla">
-    <div ui-view>
-    </div>
+    <link rel="stylesheet" type="text/css" href="assets/css/icons.css">
     <script src="https://code.jquery.com/jquery-2.2.1.js" integrity="sha256-eNcUzO3jsv0XlJLveFEkbB8bA7/CroNpNVk3XpmnwHc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="assets/js/vendor/angular.js"></script>
+    <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.1.4/scrollreveal.min.js"></script>
+    <script>
+    window.sr = ScrollReveal();
+
+    // Add class to <html> if ScrollReveal is supported
+    if (sr.isSupported()) {
+        document.documentElement.classList.add('sr');
+    }
+    </script>
     <script type="text/javascript" src="assets/js/vendor/angular-ui-router.min.js"></script>
     <script src="assets/js/vendor/angular-animate.js"></script>
     <script src="assets/js/vendor/ui-bootstrap.js"></script>
@@ -27,14 +31,18 @@
     <script type="text/javascript" src="controllers/BalancedCtrl.ctrl.js"></script>
     <script type="text/javascript" src="controllers/GamblerCtrl.ctrl.js"></script>
     <script type="text/javascript" src="controllers/modalCtrl.ctrl.js"></script>
-        <script type="text/javascript" src="controllers/navCtrl.ctrl.js"></script>
-
+    <script type="text/javascript" src="controllers/navCtrl.ctrl.js"></script>
     <script src="directives/dropdown.dir.js"></script>
     <script src="directives/titleTrim.dir.js"></script>
     <script type="text/javascript" src="services/api.srv.js"></script>
     <script type="text/javascript" src="services/articleSrv.srv.js"></script>
-<!--     <script type="text/javascript" src="assets/js/vendor/borderMenu.js"></script>
- -->    <script type="text/javascript" src="assets/js/vendor/classie.js"></script>
+    <script type="text/javascript" src="assets/js/vendor/classie.js"></script>
+</head>
+
+<body ng-app="gorilla">
+    <div ui-view>
+    </div>
+    
 </body>
 
 </html>

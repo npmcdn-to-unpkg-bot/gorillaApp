@@ -14,12 +14,19 @@
         srv.media = [];
         srv.social = [];
         srv.getMedia = getMedia;
-        srv.getSocial=getSocial;
+        srv.getSocial = getSocial;
         srv.isScrolledIntoView = isScrolledIntoView;
         srv.getGamblerArticles = getGamblerArticles;
+        srv.setAnimOptions=setAnimOptions;
         srv.sources = ['ESPNFC', 'BBC', 'EUROSPORT', 'FOOTBALL-ESPANA', 'FOOTBALL-ITALIA', 'FOOTBALL 365', 'THE GUARDIAN', 'THE INDEPENDENT', 'REDDIT', 'SKY SPORTS', 'TELEGRAPH'];
-        srv.mediaSelect='REDDIT';
-        srv.mediaSkipCount=30;
+        srv.animOptions=['enter top over 3s after 0.5s','enter right after 0.5s','enter bottom over 1s and move 300px after 0.3s','enter top over 0.5s and move 200px','enter bottom over 1s and move 100px','enter top','enter bottom over 1s and move 300px after 0.3s','enter left','enter top','enter right','enter bottom','enter top over 3s after 0.5s','enter bottom over 1s and move 100px','enter top over 0.5s and move 200px'];
+        srv.mediaSelect = 'REDDIT';
+        srv.select1 = 'ESPNFC';
+        srv.select2 = 'BBC';
+        srv.select3 = 'THE GUARDIAN';
+
+        srv.layoutSelect = 1;
+        srv.mediaSkipCount = 30;
 
         function getGamblerArticles(source1, source2, source3) {
             srv.getArticles(source1).then(function(res) {
@@ -39,7 +46,7 @@
         }
 
         function getSocial() {
-            return api.request('/socials?filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+            return api.request('/socials?filter[order]=createdAt%20DESC&filter[limit]=20', {}, 'GET').then(function(res) {
                 srv.media = res.data.map(function(item) {
                     if (!item.thumbnail) {
                         var thumb = "/assets/img/media_thumb_logo.png";
@@ -71,25 +78,8 @@
 
         function getArticles(source) {
 
-            return api.request('/Articles?filter[where][source]=' + source + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
-                srv.articles = res.data.map(function(item) {
-                    if (res.data[0].source == 'REDDIT') {
-                        return {
-                            title: item.title,
-                            source: item.source,
-                            comments: item.comments,
-                            link: item.link
-                        }
-                    } else {
-                        return {
-                            title: item.title,
-                            source: item.source,
-                            link: item.link
-                        }
-                    }
-                });
-
-                console.log('articles loaded');
+            return api.request('/Articles?filter[where][source]=' + source + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+                srv.articles = res.data;
                 return srv.articles;
 
             });
@@ -97,7 +87,7 @@
 
 
         function getMedia() {
-            return api.request('/Media?filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+            return api.request('/Media?filter[order]=createdAt%20DESC&filter[limit]=18', {}, 'GET').then(function(res) {
                 srv.media = res.data.map(function(item) {
                     if (!item.thumbnail) {
                         var thumb = "/assets/img/media_thumb_logo.png";
@@ -116,12 +106,16 @@
                     if (item.title.length > 48) {
                         item.title = item.title.substr(0, 48) + '...';
                     }
+                    srv.setAnimOptions(item);
                 });
                 return srv.media;
 
             });
         }
 
+        function setAnimOptions(item){
+            item.reveal=srv.animOptions[Math.round(Math.random() * (srv.animOptions.length - 1))];
+        }
 
         function isScrolledIntoView(elem) {
             var $elem = $(elem);

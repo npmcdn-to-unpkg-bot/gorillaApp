@@ -3,7 +3,7 @@
         .controller('gamblerCtrl', GamblerCtrl)
 
 
-    function GamblerCtrl($http, api, artSrv, media, $uibModal, $window, $scope,socket) {
+    function GamblerCtrl($http, api, artSrv, media, $uibModal, $window, $scope, socket) {
 
         var ctrl = this;
         ctrl.http = $http;
@@ -14,29 +14,30 @@
         ctrl.$uibModal = $uibModal;
         ctrl.mediaOpen = mediaOpen;
         ctrl.loadNextMedia = loadNextMedia;
-        ctrl.select1 = 'THE GUARDIAN';
-        ctrl.select2 = 'BBC';
-        ctrl.select3 = 'FOOTBALL-ESPANA';
+        ctrl.socket = socket;
         ctrl.loadSource = loadSource;
         ctrl.loadNext = loadNext;
-        ctrl.skipCount = [30, 30, 30];
-        ctrl.socket=socket;
 
+
+        ctrl.skipCount = [30, 30, 30];
+        ctrl.artSrv.layoutSelect = 2;
         ctrl.slides = [];
 
+        enableListeners(ctrl.artSrv.select1, ctrl.artSrv.select2, ctrl.artSrv.select3);
 
-        groupSlides();
+        setTimeout(function() {
+            console.log('proof', ctrl.media);
+        })
 
-        function groupSlides() {
+        function groupSlides(media) {
             var imgPerSlide = ctrl.artSrv.mediaSelect == 'REDDIT' ? 3 : 4;
-            for (var i = 0; i < ctrl.media.length; i += imgPerSlide) {
+            for (var i = 0; i < media.length; i += imgPerSlide) {
                 var slide = [];
                 for (var j = 0; j < imgPerSlide; j++) {
-                    slide.push(ctrl.media[j+i]);
+                    slide.push(media[j + i]);
                 }
                 ctrl.slides.push(slide);
             }
-            console.log('slides grouped');
         }
 
 
@@ -59,61 +60,41 @@
                     ctrl.loadNext(3);
                 }
             }
-            document.getElementById('gamb4').onscroll = function() {
-                console.log('scrolling media');
-                if (isScrolledIntoView('#lastElement4')) {
-                    ctrl.loadNextMedia();
-                }
-            }
-
 
         });
 
-      
 
-          function enableListeners() {
 
-            ctrl.socket.on('scrape_complete', function(data) {
-                console.log('New Articles Added Live!');
-                if (ctrl.select1 == data.source) {
-                    var exists = false;
-                    ctrl.articles[0].forEach(function(item) {
-                        if (item.link == data.link) {
-                            exists = true;
-                        }
-                    });
-                    if (!exists) {
-                        ctrl.articles[0].unshift(data);
-                    }
+        function enableListeners() {
 
+            ctrl.socket.on('_articles', function(data) {
+
+                if (ctrl.artSrv.select1 == data[0].source) {
+                    console.log('column 1 liveupdated!');
+                    ctrl.articles[0] = data.concat(ctrl.articles[0]);
+                    ctrl.articles[0].splice(data.length - 1, data.length);
                 }
 
-                 if (ctrl.select2 == data.source) {
-                    var exists = false;
-                    ctrl.articles[1].forEach(function(item) {
-                        if (item.link == data.link) {
-                            exists = true;
-                        }
-                    });
-                    if (!exists) {
-                        ctrl.articles[1].unshift(data);
-                    }
+            });
 
-                }
+            ctrl.socket.on('_articles', function(data) {
+                if (ctrl.artSrv.select2 == data[0].source) {
 
-                 if (ctrl.select3 == data.source) {
-                    var exists = false;
-                    ctrl.articles[2].forEach(function(item) {
-                        if (item.link == data.link) {
-                            exists = true;
-                        }
-                    });
-                    if (!exists) {
-                        ctrl.articles[2].unshift(data);
-                    }
-
+                    console.log('column 2 liveupdated!');
+                    ctrl.articles[1] = data.concat(ctrl.articles[1]);
+                    ctrl.articles[1].splice(data.length - 1, data.length);
                 }
             });
+
+            ctrl.socket.on('_articles', function(data) {
+                if (ctrl.artSrv.select3 == data[0].source) {
+                console.log('column 3 liveupdated!');
+
+                    ctrl.articles[2] = data.concat(ctrl.articles[2]);
+                    ctrl.articles[2].splice(data.length - 1, data.length);
+                }
+            });
+
 
             ctrl.socket.on('socket_media', function(data) {
                 console.log('NEW MEDIA COMING!', data);
@@ -127,25 +108,25 @@
                     if (hasAdded == false) {
                         ctrl.media.unshift(data);
                     }
+                    var slidesToCut = ctrl.slides.length;
+                    groupSlides(ctrl.media);
+                    ctrl.slides.splice(0, slidesToCut);
 
                 }
             });
         }
 
+
         function loadNextMedia() {
             console.log('LOAD NEXT MEDIA HIT');
             if (ctrl.artSrv.mediaSelect == 'REDDIT') {
-                ctrl.api.request('/Media?filter[skip]=' + ctrl.artSrv.skipMediaCount + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
-                    ctrl.media = ctrl.media.concat(res.data);
-                    ctrl.artSrv.skipMediaCount += 30;
-                    ctrl.slides=[];
-                    groupSlides();
-                $('#lastElement4').remove();
-                $('#gamb4').append('<span id="lastElement4"></span>');
+                ctrl.api.request('/Media?filter[skip]=' + ctrl.artSrv.mediaSkipCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+                    groupSlides(res.data);
+                    ctrl.artSrv.mediaSkipCount += 30;
 
                 });
             } else {
-                ctrl.api.request('/socials?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+                ctrl.api.request('/socials?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
                     var next = [];
                     next = res.data.map(function(item) {
                         if (!item.thumbnail) {
@@ -175,8 +156,7 @@
 
                     ctrl.media = ctrl.media.concat(next);
                     ctrl.skipMediaCount += 30;
-                    $('#lastMedia').remove();
-                    $('#mediaList').append('<span id="lastMedia"></span>');
+
 
                 });
             }
@@ -186,16 +166,18 @@
 
         function loadSource(listNum) {
             setTimeout(function() {
-                listNum == 1 ? ctrl.artSrv.getArticles(ctrl.select1).then(function(res) {
+                listNum == 1 ? ctrl.artSrv.getArticles(ctrl.artSrv.select1).then(function(res) {
                     ctrl.articles[0] = res;
                     ctrl.skipCount[0] = 30;
-                }) : listNum == 2 ? ctrl.artSrv.getArticles(ctrl.select2).then(function(res) {
+                }) : listNum == 2 ? ctrl.artSrv.getArticles(ctrl.artSrv.select2).then(function(res) {
                     ctrl.articles[1] = res;
                     ctrl.skipCount[1] = 30;
-                }) : ctrl.artSrv.getArticles(ctrl.select3).then(function(res) {
+                }) : ctrl.artSrv.getArticles(ctrl.artSrv.select3).then(function(res) {
                     ctrl.articles[2] = res;
                     ctrl.skipCount[2] = 30;
                 });
+
+
             })
 
         }
@@ -204,7 +186,7 @@
 
             ctrl.selected = [ctrl.select1, ctrl.select2, ctrl.select3];
             var toLoad = ctrl.selected[listNum - 1];
-            ctrl.api.request('/Articles?filter[where][source]=' + toLoad + '&filter[skip]=' + ctrl.skipCount[listNum - 1] + '&filter[order]=added%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+            ctrl.api.request('/Articles?filter[where][source]=' + toLoad + '&filter[skip]=' + ctrl.skipCount[listNum - 1] + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
                 ctrl.articles[listNum - 1] = ctrl.articles[listNum - 1].concat(res.data);
                 ctrl.skipCount[listNum - 1] += 30;
                 if (listNum == 1) {
@@ -260,8 +242,7 @@
                     }
                 });
 
-            }
-            else {
+            } else {
                 $window.open(item.link);
             }
         };
@@ -269,13 +250,11 @@
         $scope.$watch(function() {
             return ctrl.artSrv.media;
         }, function() {
-            console.log('watcher hit');
-
             ctrl.media = ctrl.artSrv.media;
-            console.log(ctrl.media);
+            console.log('watching artsrv');
             ctrl.slides = [];
-            groupSlides();
-
+            groupSlides(ctrl.media);
+            // ctrl.slides.splice(ctrl.media.length-1,slidesToCut);
 
         });
 

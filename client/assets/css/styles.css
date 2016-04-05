@@ -37,7 +37,7 @@ body {
   body p {
     color: white;
     text-decoration: none;
-    font-size: 12px; }
+    font-size: 13px; }
     body a:hover,
     body p:hover {
       text-decoration: none;
@@ -116,7 +116,7 @@ select {
     width: calc(100% - 10px); }
 
 .gamb-bottom-half {
-  padding-right: 27px; }
+  padding-right: 38px; }
   .gamb-bottom-half .content-col {
     width: 100%; }
   .gamb-bottom-half .gamb-col-container, .gamb-bottom-half .content-col {
@@ -407,8 +407,13 @@ ul.options {
   height: 286px;
   top: auto; }
   .carousel-control.right {
-    right: 40px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0, rgba(0, 0, 0, 0.1) 100%); }
+    right: 60px;
+    width: 5%;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.01) 0, rgba(0, 0, 0, 0.01) 100%); }
+  .carousel-control.left {
+    left: 60px;
+    width: 5%;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.01) 0, rgba(0, 0, 0, 0.01) 100%); }
 
 .carousel-indicators {
   display: none; }

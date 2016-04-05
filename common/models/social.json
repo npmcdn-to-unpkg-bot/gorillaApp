@@ -5,6 +5,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "TimeStamp": true
+  },
   "properties": {
     "title": {
       "type": "string",
@@ -25,10 +28,6 @@
     "type": {
       "type": "string",
       "required": true
-    },
-    "added": {
-      "type": "string",
-      "required": true
     }
   },
   "validations": [],
@@ -36,3 +35,5 @@
   "acls": [],
   "methods": {}
 }
+
+

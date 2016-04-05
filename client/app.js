@@ -58,8 +58,8 @@
                     media: function(artSrv) {
                         return artSrv.getMedia();
                     }
-                    
-                  
+
+
 
                 }
 
@@ -86,7 +86,7 @@
                         return artSrv.getMedia();
                     },
                     gamblerArticles: function(artSrv) {
-                        return artSrv.getGamblerArticles('THE GUARDIAN', 'BBC', 'FOOTBALL-ESPANA');
+                        return artSrv.getGamblerArticles('ESPNFC', 'BBC', 'THE GUARDIAN');
                     }
 
                 }
@@ -110,3 +110,17 @@
 
 
 })();
+
+Array.prototype.remove = function() {
+    var what, a = arguments,
+        L = a.length,
+        ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            console.log('removing item',what);
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};

@@ -5,7 +5,7 @@
             <div class="one-third column ">
                 <div class="col-wrap">
                     <div class="news-selector u-full-width content-col ">
-                        <div class="option-box" options-box articles="ctrl.articles[0]" select="ctrl.select1" load-source="ctrl.loadSource(1)">
+                        <div class="option-box" options-box articles="ctrl.articles[0]" select="ctrl.artSrv.select1" load-source="ctrl.loadSource(1)">
                         </div>
                     </div>
                     <div class="scroll-col gamb-col-container" id='gamb1'>
@@ -29,7 +29,7 @@
             <div class="one-third column ">
                 <div class="col-wrap">
                     <div class="news-selector u-full-width content-col ">
-                        <div class="option-box" options-box articles="ctrl.articles[1]" select="ctrl.select2" load-source="ctrl.loadSource(2)">
+                        <div class="option-box" options-box articles="ctrl.articles[1]" select="ctrl.artSrv.select2" load-source="ctrl.loadSource(2)">
                         </div>
                     </div>
                     <div class="scroll-col gamb-col-container" id='gamb2'>
@@ -53,7 +53,7 @@
             <div class="one-third column">
                 <div class="col-wrap">
                     <div class="news-selector u-full-width content-col ">
-                        <div class="option-box" options-box articles="ctrl.articles[2]" select="ctrl.select3" load-source="ctrl.loadSource(3)">
+                        <div class="option-box" options-box articles="ctrl.articles[2]" select="ctrl.artSrv.select3" load-source="ctrl.loadSource(3)">
                         </div>
                     </div>
                     <div class="scroll-col gamb-col-container" id="gamb3">
@@ -77,9 +77,10 @@
     </div>
     <!-- Gallery Slider -->
     <div class="gamb-bottom-half">
-        <uib-carousel active="active" id="gamb4">
-            <uib-slide ng-repeat="slide in ctrl.slides track by $index">
+        <uib-carousel  id="gamb4" no-wrap="true">
+            <uib-slide ng-repeat="slide in ctrl.slides track by $index" active="slide.active">
                 <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                <span ng-if="$last && slide.active" ng-init="ctrl.loadNextMedia()" style="display:none"></span>
                     <a ng-click="ctrl.mediaOpen(slide[0])">
                         <div class="media-wrap">
                             <div class="gradient">
@@ -141,8 +142,6 @@
                         </div>
                     </a>
                 </div>
-                <span id="lastElement4" ng-if="$last"></span>
-
             </uib-slide>
         </uib-carousel>
     </div>
