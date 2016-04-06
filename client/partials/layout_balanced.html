@@ -1,4 +1,3 @@
-
 <div style="height:100%" class="u-full-width">
     <div style="height:100%" class="bal-wrapper">
         <div class="row">
@@ -7,6 +6,7 @@
             <div class="col-bal column">
                 <div class="col-wrap">
                     <div class="news-selector u-full-width content-col ">
+                        <div class="accent"></div>
                         <div class="option-box" options-box articles="ctrl.articles" select="ctrl.select" load-source="ctrl.loadSource()">
                         </div>
                     </div>
@@ -15,12 +15,16 @@
                             <ul id="scrollList" class="article-list">
                                 <li class="entry" ng-repeat="article in ctrl.articles">
                                     <div class="article-wrap">
-                                        <img src="assets/img/article-id-hover.png">
-                                        <div class="icon-id"></div>
+                                        <!-- <img src="assets/img/article-id-hover.png">
+                                        <div class="icon-id"></div> -->
                                         <div class="article">
-                                            <a ng-href="{{article.link}}" title-trim article="article" target="_blank"></a>
+                                            <div class="article-inner">
+                                                <a ng-href="{{article.link}}" title-trim article="article" target="_blank"></a>
+                                            </div>
+                                            <div class="article-inner" ng-if="article.source!='REDDIT'"><p>{{article.author}}</p> </div>
+                                             <div class="article-inner" ng-if="article.source=='REDDIT'"><p><a href="{{article.comments}}" target="_blank">{{article.num_comments}} comments </a></p></div>
                                         </div>
-                                        <div ng-if="ctrl.select=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                                       
                                     </div>
                                 </li>
                                 <!--                             </div>
@@ -58,10 +62,9 @@
         </div>
     </div>
 </div>
-
 <script>
-    // use rotation in reveal configuration
-    sr.reveal('.sr.media-entry',{
-        container: '.media-list'
-            });
-    </script>
+// use rotation in reveal configuration
+sr.reveal('.sr.media-entry', {
+    container: '.media-list'
+});
+</script>

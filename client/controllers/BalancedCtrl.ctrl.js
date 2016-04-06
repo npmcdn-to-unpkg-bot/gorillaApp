@@ -88,7 +88,7 @@
                     console.log('article live update');
                     ctrl.articles = data.concat(ctrl.articles);
                     ctrl.articles.splice(data.length - 1, data.length);
-
+                    
                 }
             });
 

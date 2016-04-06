@@ -4,8 +4,7 @@ var addAuthor = function(app, i, cb, links, article, selector, source) {
     var Xray = require("x-ray");
     var Article = article;
     var scrape = new Xray();
-    
-   console.log('link to be tried',links[i]);
+
     scrape(links[i].link, selector)(function(err2, res) {
 
         if (!err2) {
@@ -56,16 +55,16 @@ var addAuthor = function(app, i, cb, links, article, selector, source) {
 
 
         } else {
-
-            if (links[i].source == "ESPNFC") {
+            if (source == "ESPNFC") {
                 var author = 'ESPN staff';
-            } else if (links[i].source == "BBC") {
+            } else if (source == "BBC") {
                 var author = 'na';
 
             } else {
                 var author = "Staff";
             }
 
+            console.log(source,author);
             var articleInstance = {
                 title: links[i].title,
                 link: links[i].link,

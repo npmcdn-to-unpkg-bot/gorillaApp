@@ -14,18 +14,13 @@
   src: url("../fonts/GOTHAM-BLACK.OTF") format("truetype");
   font-style: normal; }
 .dark, .nav-main, h1, .content-col, li.entry {
-  background-color: #3F3C46; }
+  background-color: #262A3B; }
 
 .light, body, .icon-id {
-  background-color: #2C2D2D; }
+  background-color: #1F1E2C; }
 
 .main {
   height: calc(100% - 50px); }
-
-.entry-hover, li.entry .article-wrap:hover {
-  background-color: #7544D3; }
-  .entry-hover a, li.entry .article-wrap:hover a {
-    color: white; }
 
 body {
   font-family: 'Gotham-Bold';
@@ -35,14 +30,16 @@ body {
   overflow-y: hidden; }
   body a,
   body p {
-    color: white;
+    color: #96C7BD;
     text-decoration: none;
-    font-size: 13px; }
+    font-size: 14px; }
     body a:hover,
     body p:hover {
       text-decoration: none;
             /*            color: #EDCE4F;
 */ }
+  body a:hover {
+    color: white; }
 
 .fa {
   font-size: 24px; }
@@ -144,8 +141,8 @@ select {
   position: relative; }
 
 .padded, .news-selector, li.entry {
-  min-height: 30px;
-  margin-bottom: 10px;
+  height: 50px;
+  margin-bottom: 1px;
   padding: 3px; }
 
 .gamb-col-container, .content-col {
@@ -165,6 +162,15 @@ select {
   position: relative; }
   .news-selector select {
     height: 20px; }
+
+.accent {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 40px;
+  height: 40px;
+  border-left: 6px solid #00D6AA;
+  border-top: 6px solid #00D6AA; }
 
 .icon-id {
   position: absolute;
@@ -196,15 +202,11 @@ li.entry {
   list-style-type: none; }
   li.entry .article-wrap {
     position: relative;
-    height: 30px;
+    height: 100%;
     width: 100%;
     border-radius: 3px;
     overflow-x: auto;
     overflow-y: hidden; }
-    li.entry .article-wrap:hover .icon-id {
-      display: none; }
-    li.entry .article-wrap:hover .comments-icon {
-      display: block; }
     li.entry .article-wrap .comments-icon {
       right: 2px;
       bottom: 4px; }
@@ -214,9 +216,10 @@ li.entry {
     li.entry .article-wrap .article {
       padding-left: 30px;
       padding-right: 30px;
+      padding-top: 3px;
       white-space: nowrap;
       display: inline-block;
-      width: calc(100% - 30px);
+      width: calc(100% - 5px);
       overflow: hidden; }
       li.entry .article-wrap .article .comments-icon {
         right: 5px;
@@ -235,6 +238,17 @@ li.entry {
   overflow-y: auto;
   padding-right: 5px;
   height: 100%; }
+
+.article-inner {
+  height: 50%;
+  margin: 0;
+  padding: 0; }
+  .article-inner p {
+    color: #5A617B;
+    font-size: 12px; }
+  .article-inner p a {
+    color: #5A617B;
+    font-size: 12px; }
 
 .media-border-hover {
   position: absolute;
