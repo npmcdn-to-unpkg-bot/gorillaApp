@@ -61,35 +61,7 @@
 
             };
 
-            // function getReddit() {
-            //     return this.http.get('https://www.reddit.com/r/soccer/hot/.json?limit=30').then(function(res) {
-            //             console.log(res);
-            //             var list = res.data.data.children;
-            //             var redditArticles = [];
-            //             list.forEach(function(item) {
-            //                 if (!(/gfycat/.test(item.data.domain)) && !(/streamable/.test(item.data.domain)) && !(/youtu/.test(item.data.domain)) && !(/abload/.test(item.data.domain))) {
-            //                     var post = {
-            //                         title: item.data.title,
-            //                         link: item.data.url,
-            //                         author: 'n/a',
-            //                         count: 0,
-            //                         source: 'reddit',
-            //                         comments: 'http://www.reddit.com' + item.data.permalink,
-
-
-            //                     };
-
-            //                     redditArticles.push(post);
-
-            //                 }
-
-            //             });
-            //             return redditArticles;
-            //         })
-            //     }
-
-               
-
+ 
             
                 function formatGetData(data) {
                     var data_string = '?';

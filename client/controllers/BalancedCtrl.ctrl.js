@@ -14,7 +14,7 @@
         ctrl.loadSource = loadSource;
         ctrl.loadNextMedia = loadNextMedia;
         ctrl.skipCount = 30;
-        ctrl.skipMediaCount = 30;
+        ctrl.skipMediaCount = 18;
         ctrl.$uibModal = $uibModal;
         ctrl.mediaOpen = mediaOpen;
         ctrl.loadNext = loadNext;
@@ -27,7 +27,6 @@
         setTimeout(function() {
 
             document.getElementById('scrollWindow').onscroll = function() {
-                console.log('scrolling');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement')) {
                     $('#lastElement').remove();
                     setTimeout(function() {
@@ -38,21 +37,13 @@
             document.getElementById('mediaScroll').onscroll = function() {
                 console.log('scrolling media');
                 if (ctrl.artSrv.isScrolledIntoView('#lastMedia')) {
-                    ctrl.loadNextMedia();
+                        ctrl.loadNextMedia();
+
                 }
             }
 
-
         });
 
-       
-
-        $scope.$on("$viewContentLoaded", function() {
-            sr.reveal('.sr.media-entry',{ duration: 4000 },{
-        container: '.media-list'
-            });
-            console.log('reveal hit');
-        });
 
 
 
@@ -88,7 +79,7 @@
                     console.log('article live update');
                     ctrl.articles = data.concat(ctrl.articles);
                     ctrl.articles.splice(data.length - 1, data.length);
-                    
+
                 }
             });
 
@@ -102,6 +93,7 @@
                         }
                     });
                     if (hasAdded == false) {
+                        data.title = data.title.toUpperCase();
                         ctrl.media.unshift(data);
                     }
 
@@ -111,18 +103,19 @@
 
 
         function loadNextMedia() {
-            console.log('LOADING');
             if (ctrl.artSrv.mediaSelect == 'REDDIT') {
-                ctrl.api.request('/Media?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
-                    console.log("loading next media:", res.data);
+                ctrl.api.request('/Media?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=18', {}, 'GET').then(function(res) {
+                    console.log('api request', res.data);
                     ctrl.media = ctrl.media.concat(res.data);
-                    ctrl.skipMediaCount += 30;
+                    ctrl.skipMediaCount += 18;
                     $('#lastMedia').remove();
+
                     $('#mediaList').append('<span id="lastMedia"></span>');
+
 
                 });
             } else if (ctrl.artSrv.mediaSelect == 'IG') {
-                ctrl.api.request('/socials?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+                ctrl.api.request('/socials?filter[skip]=' + ctrl.skipMediaCount + '&filter[order]=createdAt%20DESC&filter[limit]=20', {}, 'GET').then(function(res) {
                     var next = [];
                     next = res.data.map(function(item) {
                         if (!item.thumbnail) {
@@ -132,7 +125,6 @@
                         } else {
                             var thumb = item.thumbnail.url;
                         }
-                        console.log('title about to be assembled', item.title, 'thumbnail: ', item.thumbnail);
                         return {
                             title: item.title,
                             source: item.source,
@@ -160,7 +152,6 @@
         }
 
         function mediaOpen(item) {
-            console.log('ITEM LINK ', item.link);
             if (/streamable/.test(item.link)) {
                 var modalInstance = $uibModal.open({
                     animation: true,

@@ -1,4 +1,6 @@
 (function() {
+    'use strict'
+
     angular.module('gorilla')
         .directive("optionsBox", OptionsBox);
 
@@ -46,11 +48,9 @@
             link: function(scope, element, attr,ctrl) {
 
                 scope.isPopupVisible = ctrl.optionsShow;
-
                 scope.toggleSelect = ctrl.showSources;
 
                 $document.bind('click', function(event) {
-                    console.log('clicked');
                     var isClickedElementChildOfPopup = element
                         .find(event.target)
                         .length > 0;
@@ -70,5 +70,3 @@
 
 })();
 
-// template: '<div class="selected" ng-click="showSources()"><p>{{ selected }} </p><div class="arrow-down"></div></div>' +
-//                 '<ul class="options" ng-show="optionsShow"><li ng-repeat="source in sources" ng-click="selectSource()(source)">{{ source }}</li></ul>'

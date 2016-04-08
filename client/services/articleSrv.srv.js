@@ -5,7 +5,7 @@
         .module('gorilla')
         .service('artSrv', ArticleService);
 
-    function ArticleService(api, $window) {
+    function ArticleService(api, $window, $http, $q) {
 
         var srv = this;
         srv.getArticles = getArticles;
@@ -17,14 +17,13 @@
         srv.getSocial = getSocial;
         srv.isScrolledIntoView = isScrolledIntoView;
         srv.getGamblerArticles = getGamblerArticles;
-        srv.setAnimOptions=setAnimOptions;
+        srv.hasAuthor = hasAuthor;
         srv.sources = ['ESPNFC', 'BBC', 'EUROSPORT', 'FOOTBALL-ESPANA', 'FOOTBALL-ITALIA', 'FOOTBALL 365', 'THE GUARDIAN', 'THE INDEPENDENT', 'REDDIT', 'SKY SPORTS', 'TELEGRAPH'];
-        srv.animOptions=['enter top over 3s after 0.5s','enter right after 0.5s','enter bottom over 1s and move 300px after 0.3s','enter top over 0.5s and move 200px','enter bottom over 1s and move 100px','enter top','enter bottom over 1s and move 300px after 0.3s','enter left','enter top','enter right','enter bottom','enter top over 3s after 0.5s','enter bottom over 1s and move 100px','enter top over 0.5s and move 200px'];
         srv.mediaSelect = 'REDDIT';
         srv.select1 = 'ESPNFC';
         srv.select2 = 'BBC';
         srv.select3 = 'THE GUARDIAN';
-
+        srv.popover = 'popover.html';
         srv.layoutSelect = 1;
         srv.mediaSkipCount = 30;
 
@@ -94,6 +93,8 @@
                     } else {
                         var thumb = item.thumbnail;
                     }
+
+
                     return {
                         title: item.title.toUpperCase(),
                         source: item.source,
@@ -101,20 +102,52 @@
                         thumbnail: thumb,
                         comments: item.comments
                     }
+
                 });
-                srv.media.forEach(function(item) {
+
+                srv.media.forEach(function(item, i) {
                     if (item.title.length > 48) {
                         item.title = item.title.substr(0, 48) + '...';
                     }
-                    srv.setAnimOptions(item);
                 });
-                return srv.media;
+               
+                    return srv.media;
 
             });
         }
 
-        function setAnimOptions(item){
-            item.reveal=srv.animOptions[Math.round(Math.random() * (srv.animOptions.length - 1))];
+        //streamable only
+        // srv.delInvalidLinks = function(arr) {
+        //     var deferred = $q.defer();
+        //     var length = arr.length;
+        //     console.log('delinv');
+        //     arr.forEach(function(item, i) {
+        //         item.title = item.title.toUpperCase();
+        //         if (/streamable/.test(item.link)) {
+        //             var shortcode = /[^/]*$/.exec(item.link)[0];
+        //             $http.get('http://api.streamable.com/videos/' + shortcode).then(function(resp) {
+        //                 if (resp.data.status != 2) {
+        //                     arr = arr.filter(item2 => item2 !== item);
+        //                 }
+        //                 console.log('i is ',i);
+        //                 if (i == length - 1) {
+        //                     deferred.resolve(arr);
+        //                 }
+        //             });
+
+        //         }
+        //     });
+
+        //     return deferred.promise;
+
+        // }
+
+        function hasAuthor(item) {
+            if (item.source == "FOOTBALL-ESPANA" || item.source == "FOOTBALL-ITALIA" || item.source == "FOOTBALL 365" || item.source == "REDDIT") {
+                return false;
+            } else {
+                return true;
+            }
         }
 
         function isScrolledIntoView(elem) {

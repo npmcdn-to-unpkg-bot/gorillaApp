@@ -11,7 +11,7 @@
             ctrl.link = item.link;
 
             ctrl.url = /[^/]*$/.exec(item.link)[0];
-            console.log('item to modal:', item);
+            console.log('item to modal shortcode:', ctrl.url);
             console.log('modal link', ctrl.link);
             if (/youtu\.be/.test(item.link)) {
                 ctrl.youtubeUrl = /[^/]*$/.exec(item.link)[0];

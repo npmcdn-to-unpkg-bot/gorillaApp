@@ -42,15 +42,17 @@ function scrape(app) {
                             links = links.concat(obj4.slice(0, 20));
                             links.reverse();
                             links.forEach(function(item) {
-                                item.link=item.link.replace(/ /g,"");
+                                item.link = item.link.replace(/ /g, "");
                             });
                             console.log('links for ESPNFC', links);
                             author.addAuthor(app, i, function cb() {
                                 i++;
                                 if (i > links.length - 1) {
                                     request(base_url + '/Articles?filter[where][source]=ESPNFC&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-                                        var parsed = JSON.parse(body);
-                                        app.io.emit('_articles', parsed);
+                                        if (!err) {
+                                            var parsed = JSON.parse(body);
+                                            app.io.emit('_articles', parsed);
+                                        }
                                     });
                                     return;
                                 }

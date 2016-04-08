@@ -3,7 +3,7 @@ function scrape(app) {
     var Media = app.models.Media;
     var request = require('request');
     var base_url = require('./baseurl.js');
-    var i=0;
+    var i = 0;
     var addEntry = function(i, links, cb) {
 
         var where = {
@@ -28,8 +28,7 @@ function scrape(app) {
 
             } else {
                 Article.create(links[i], function(err, res) {
-                    if (err) {
-                    } else {
+                    if (err) {} else {
                         cb();
                     }
                 });
@@ -44,7 +43,6 @@ function scrape(app) {
         if (!(/servers are busy/.test(body)) && !(/unknown error/.test(body)) && body != undefined && !err) {
             var list = JSON.parse(body).data.children;
             var links = [];
-
             list.forEach(function(item) {
                 if (!(/gfycat/.test(item.data.domain)) && !(/streamable/.test(item.data.domain)) && !(/youtu/.test(item.data.domain)) && !(/abload/.test(item.data.domain))) {
                     var post = {
@@ -72,18 +70,41 @@ function scrape(app) {
                         count: 0
                     };
 
-                    if (item.data.media) {
-                        post.thumbnail = item.data.media.oembed.thumbnail_url;
+                    if (/streamable/.test(post.link)) {
+
+                        var shortcode = /[^/]*$/.exec(post.link)[0];
+                        request('http://api.streamable.com/videos/' + shortcode, function(err2, res2, body2) {
+                            if(err2){console.log('error caught for video :', shortcode,err2)}
+                            if (!err2) {
+                                var thumb = JSON.parse(body2);
+                                post.thumbnail = thumb.thumbnail_url;
+
+                                Media.create(post, function(err, res) {
+
+                                    if (!err) {
+                                        app.io.emit('socket_media', res);
+
+                                    }
+                                });
+                            }
+                        })
+
+                    } else {
+
+                        if (item.data.media) {
+                            post.thumbnail = item.data.media.oembed.thumbnail_url;
+                        }
+
+                        Media.create(post, function(err, res) {
+
+                            if (!err) {
+                                app.io.emit('socket_media', res);
+
+                            }
+                        });
                     }
 
-                    Media.create(post, function(err, res) {
 
-                        if (err) {
-                        } else {
-                            app.io.emit('socket_media', res);
-
-                        }
-                    });
                 }
 
 
@@ -95,8 +116,6 @@ function scrape(app) {
                 i++;
                 if (i == links.length) {
                     request(base_url + '/Articles?filter[where][source]=REDDIT&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-                        console.log('res is : ',res);
-                        console.log('err is :', err);
                         var parsed = JSON.parse(body);
                         app.io.emit('_articles', parsed);
                     });

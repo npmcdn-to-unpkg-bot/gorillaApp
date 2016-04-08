@@ -118,7 +118,6 @@ Array.prototype.remove = function() {
     while (L && this.length) {
         what = a[--L];
         while ((ax = this.indexOf(what)) !== -1) {
-            console.log('removing item',what);
             this.splice(ax, 1);
         }
     }

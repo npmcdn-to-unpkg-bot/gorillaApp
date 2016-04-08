@@ -57,14 +57,10 @@ var addAuthor = function(app, i, cb, links, article, selector, source) {
         } else {
             if (source == "ESPNFC") {
                 var author = 'ESPN staff';
-            } else if (source == "BBC") {
-                var author = 'na';
-
             } else {
                 var author = "Staff";
             }
 
-            console.log(source,author);
             var articleInstance = {
                 title: links[i].title,
                 link: links[i].link,

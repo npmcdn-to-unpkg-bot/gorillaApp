@@ -43,21 +43,30 @@
 
         setTimeout(function() {
             document.getElementById('gamb1').onscroll = function() {
-                console.log('scrolling');
+                console.log('scrolling1');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement1')) {
-                    ctrl.loadNext(1);
+                   $('#lastElement1').remove();
+                    setTimeout(function() {
+                        ctrl.loadNext(1);
+                    }, 1000);
                 }
             }
             document.getElementById('gamb2').onscroll = function() {
                 console.log('scrolling');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement2')) {
-                    ctrl.loadNext(2);
+                   $('#lastElement2').remove();
+                    setTimeout(function() {
+                        ctrl.loadNext(2);
+                    }, 1000);
                 }
             }
             document.getElementById('gamb3').onscroll = function() {
                 console.log('scrolling');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement3')) {
-                    ctrl.loadNext(3);
+                    $('#lastElement3').remove();
+                    setTimeout(function() {
+                        ctrl.loadNext(3);
+                    }, 1000);
                 }
             }
 
@@ -183,23 +192,23 @@
         }
 
         function loadNext(listNum) {
-
-            ctrl.selected = [ctrl.select1, ctrl.select2, ctrl.select3];
+            console.log('trying to load next for col ',listNum)
+            ctrl.selected = [ctrl.artSrv.select1, ctrl.artSrv.select2, ctrl.artSrv.select3];
             var toLoad = ctrl.selected[listNum - 1];
             ctrl.api.request('/Articles?filter[where][source]=' + toLoad + '&filter[skip]=' + ctrl.skipCount[listNum - 1] + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
+                console.log('res data',res.data);
                 ctrl.articles[listNum - 1] = ctrl.articles[listNum - 1].concat(res.data);
                 ctrl.skipCount[listNum - 1] += 30;
+                console.log('articles after loadnext',ctrl.articles[listNum-1]);
                 if (listNum == 1) {
-                    $('#lastElement1').remove();
+                    console.log('appending');
                     $('#gamb1').append('<span id="lastElement1"></span>');
                 }
 
                 if (listNum == 2) {
-                    $('#lastElement2').remove();
                     $('#gamb2').append('<span id="lastElement2"></span>');
                 }
                 if (listNum == 3) {
-                    $('#lastElement3').remove();
                     $('#gamb3').append('<span id="lastElement3"></span>');
                 }
 

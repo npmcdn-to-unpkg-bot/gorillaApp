@@ -15,16 +15,20 @@
                             <ul id="scrollList" class="article-list">
                                 <li class="entry" ng-repeat="article in ctrl.articles">
                                     <div class="article-wrap">
-                                        <!-- <img src="assets/img/article-id-hover.png">
-                                        <div class="icon-id"></div> -->
                                         <div class="article">
                                             <div class="article-inner">
-                                                <a ng-href="{{article.link}}" title-trim article="article" target="_blank"></a>
+                                                <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                                <script type="text/ng-template" id="popover">
+                                                    <div><span>{{article.title}}</span></div>
+                                                </script>
                                             </div>
-                                            <div class="article-inner" ng-if="article.source!='REDDIT'"><p>{{article.author}}</p> </div>
-                                             <div class="article-inner" ng-if="article.source=='REDDIT'"><p><a href="{{article.comments}}" target="_blank">{{article.num_comments}} comments </a></p></div>
+                                            <div class="article-inner" ng-if="ctrl.artSrv.hasAuthor(article)">
+                                                <p>{{article.author}}</p>
+                                            </div>
+                                            <div class="article-inner" ng-if="article.source=='REDDIT'">
+                                                <p><a href="{{article.comments}}" target="_blank">{{article.num_comments}} comments </a></p>
+                                            </div>
                                         </div>
-                                       
                                     </div>
                                 </li>
                                 <!--                             </div>
@@ -38,13 +42,16 @@
             <div class="two-thirds column">
                 <div class="scroll-col gamb-col-container" id="mediaScroll">
                     <ul class="media-list u-full-width" id="mediaList" scroll-reveal-container='{"viewportFactor": 0.2}'>
-                        <li class="media-entry " ng-class="{'ig-height':ctrl.artSrv.mediaSelect=='IG'}" ng-repeat="post in ctrl.media track by $index">
+                        <li class="media-entry " ng-class="{'ig-height':ctrl.artSrv.mediaSelect=='IG', }" ng-repeat="post in ctrl.media track by $index" scroll-reveal-repeat parent-class="media-list">
                             <a ng-href="{{post.link}}" target="_blank">
                                 <a ng-click="ctrl.mediaOpen(post)">
                                     <div class="media-wrap">
                                         <div class="gradient">
                                             <div class="media-title">
-                                                <p>{{post.title}}</p>
+                                                <p uib-popover-template="'popover2'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{post.title}}</p>
+                                                <script type="text/ng-template" id="popover2">
+                                                    <div><span>{{post.title}}</span></div>
+                                                </script>
                                             </div>
                                         </div>
                                         <div class="media-border-hover"></div>
@@ -54,6 +61,7 @@
                                 </a>
                             </a>
                             <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{post.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
+                            <div class="accent"></div>
                         </li>
                         <span id="lastMedia"></span>
                     </ul>
@@ -62,9 +70,3 @@
         </div>
     </div>
 </div>
-<script>
-// use rotation in reveal configuration
-sr.reveal('.sr.media-entry', {
-    container: '.media-list'
-});
-</script>

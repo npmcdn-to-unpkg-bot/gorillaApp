@@ -12,12 +12,20 @@
                         <ul class="article-list">
                             <li class="entry" ng-repeat="article in ctrl.articles[0] track by $index">
                                 <div class="article-wrap">
-                                    <img src="assets/img/article-id-hover.png">
-                                    <div class="icon-id"></div>
                                     <div class="article">
-                                        <a ng-href="{{article.link}}" target="_blank">{{article.title}}</a>
+                                        <div class="article-inner">
+                                            <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                            <script type="text/ng-template" id="popover">
+                                                <div><span>{{article.title}}</span></div>
+                                            </script>
+                                        </div>
+                                        <div class="article-inner" ng-if="ctrl.artSrv.hasAuthor(article)">
+                                            <p>{{article.author}}</p>
+                                        </div>
+                                        <div class="article-inner" ng-if="article.source=='REDDIT'">
+                                            <p><a href="{{article.comments}}" target="_blank">{{article.num_comments}} comments </a></p>
+                                        </div>
                                     </div>
-                                    <div ng-if="ctrl.select1=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
                                 </div>
                             </li>
                             <span id="lastElement1"></span>
@@ -36,12 +44,20 @@
                         <ul class="article-list">
                             <li class="entry" ng-repeat="article in ctrl.articles[1] track by $index">
                                 <div class="article-wrap">
-                                    <img src="assets/img/article-id-hover.png">
-                                    <div class="icon-id"></div>
                                     <div class="article">
-                                        <a ng-href="{{article.link}}" target="_blank">{{article.title}}</a>
+                                        <div class="article-inner">
+                                            <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                            <script type="text/ng-template" id="popover">
+                                                <div><span>{{article.title}}</span></div>
+                                            </script>
+                                        </div>
+                                        <div class="article-inner" ng-if="ctrl.artSrv.hasAuthor(article)">
+                                            <p>{{article.author}}</p>
+                                        </div>
+                                        <div class="article-inner" ng-if="article.source=='REDDIT'">
+                                            <p><a href="{{article.comments}}" target="_blank">{{article.num_comments}} comments </a></p>
+                                        </div>
                                     </div>
-                                    <div ng-if="ctrl.select2=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
                                 </div>
                             </li>
                             <span id="lastElement2"></span>
@@ -60,12 +76,20 @@
                         <ul class="article-list">
                             <li class="entry" ng-repeat="article in ctrl.articles[2] track by $index">
                                 <div class="article-wrap">
-                                    <img src="assets/img/article-id-hover.png">
-                                    <div class="icon-id"></div>
                                     <div class="article">
-                                        <a ng-href="{{article.link}}" target="_blank">{{article.title}}</a>
+                                        <div class="article-inner">
+                                            <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                            <script type="text/ng-template" id="popover">
+                                                <div><span>{{article.title}}</span></div>
+                                            </script>
+                                        </div>
+                                        <div class="article-inner" ng-if="ctrl.artSrv.hasAuthor(article)">
+                                            <p>{{article.author}}</p>
+                                        </div>
+                                        <div class="article-inner" ng-if="article.source=='REDDIT'">
+                                            <p><a href="{{article.comments}}" target="_blank">{{article.num_comments}} comments </a></p>
+                                        </div>
                                     </div>
-                                    <div ng-if="ctrl.select3=='REDDIT'" class="comments-icon"><a href="{{article.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
                                 </div>
                             </li>
                             <span id="lastElement3"></span>
@@ -77,15 +101,18 @@
     </div>
     <!-- Gallery Slider -->
     <div class="gamb-bottom-half">
-        <uib-carousel  id="gamb4" no-wrap="true">
+        <uib-carousel id="gamb4" no-wrap="true">
             <uib-slide ng-repeat="slide in ctrl.slides track by $index" active="slide.active">
                 <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
-                <span ng-if="$last && slide.active" ng-init="ctrl.loadNextMedia()" style="display:none"></span>
+                    <span ng-if="$last && slide.active" ng-init="ctrl.loadNextMedia()" style="display:none"></span>
                     <a ng-click="ctrl.mediaOpen(slide[0])">
                         <div class="media-wrap">
                             <div class="gradient">
                                 <div class="media-title">
-                                    <p>{{slide[0].title}}</p>
+                                    <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[0].title}}</p>
+                                    <script type="text/ng-template" id="popoverSlider">
+                                        <div><span>{{slide[0].title}}</span></div>
+                                    </script>
                                 </div>
                             </div>
                             <div class="media-border-hover"></div>
@@ -101,7 +128,10 @@
                         <div class="media-wrap">
                             <div class="gradient">
                                 <div class="media-title">
-                                    <p>{{slide[1].title}}</p>
+                                    <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[1].title}}</p>
+                                    <script type="text/ng-template" id="popoverSlider">
+                                        <div><span>{{slide[1].title}}</span></div>
+                                    </script>
                                 </div>
                             </div>
                             <div class="media-border-hover"></div>
@@ -117,7 +147,10 @@
                         <div class="media-wrap">
                             <div class="gradient">
                                 <div class="media-title">
-                                    <p>{{slide[2].title}}</p>
+                                    <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[2].title}}</p>
+                                    <script type="text/ng-template" id="popoverSlider">
+                                        <div><span>{{slide[2].title}}</span></div>
+                                    </script>
                                 </div>
                             </div>
                             <div class="media-border-hover"></div>

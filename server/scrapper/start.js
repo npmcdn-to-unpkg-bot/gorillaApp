@@ -48,9 +48,9 @@ module.exports = function(server) {
         var independentTimer = setInterval(function() {
             independent(server)
         }, interval);
-        // var redditTimer = setInterval(function() {
-        //     reddit(server)
-        // }, redditInterval);
+        var redditTimer = setInterval(function() {
+            reddit(server)
+        }, redditInterval);
         var skyTimer = setInterval(function() {
             sky(server)
         }, 500000);
