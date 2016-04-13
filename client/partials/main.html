@@ -1,30 +1,41 @@
 <head>
- 
+ <meta name="viewport" content="width=device-width" />
 </head>
 <header class="nav-main u-full-width">
     <div>
-        <!--         <img src="assets/img/gorilla-main-logo.png" class="logo-header">
- -->
+               <div><img src="assets/img/gorilla-logo-ball.png" class="logo-header"></div> 
+<!--                    <div><p class="icon-gorilla"></p>
+ --> </div> 
     </div>
+
 </header>
 <nav id="bt-menu" class="bt-menu">
     <a ng-click="ctrl.trigger()" class="bt-menu-trigger"><span>Menu</span></a>
     <ul>
         <li ng-class="{'layout-selected':ctrl.artSrv.layoutSelect==1}">
-            <h4>Balanced</h4>
             <a ng-click="ctrl.changeLayout(1)" class="icon-balanced"></a>
         </li>
+        <li><a class="icon-arrowUp" ng-click="ctrl.changeLayout(1)" ng-class="{'arrow-selected':ctrl.artSrv.layoutSelect==1}"></a><h3>Layout</h3><a class="icon-arrowDown" ng-class="{'arrow-selected':ctrl.artSrv.layoutSelect==2}" ng-click="ctrl.changeLayout(2)"></a></li>
         <li ng-class="{'layout-selected':ctrl.artSrv.layoutSelect==2}">
-            <h4>Gambler</h4>
             <a ng-click="ctrl.changeLayout(2)" class="icon-gambler"></a>
         </li>
     </ul>
+
     <ul>
-        <li>
-             <a ng-click="ctrl.loadMedia('REDDIT')" class="icon-reddit"></a></li>
-        <li>
-            <a ng-click="ctrl.loadMedia('IG')" class="icon-ig">IG</a></li>
-    </ul>
+<li >
+<a class="icon-feedback" ng-click="ctrl.sendFeedback()"></a>   <h4>FEEDBACK</h4>
+      </li>    </ul>
+
 </nav>
-<!-- <div style="position:absolute;top:0;right:0;"><button ng-click="ctrl.changeLayout(1)">Bal</button><button ng-click="ctrl.changeLayout(2)">Gamb</button></div> -->
+
 <div class="main" ui-view></div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76250451-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

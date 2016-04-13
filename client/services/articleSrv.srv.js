@@ -18,6 +18,7 @@
         srv.isScrolledIntoView = isScrolledIntoView;
         srv.getGamblerArticles = getGamblerArticles;
         srv.hasAuthor = hasAuthor;
+        srv.addClick=addClick;
         srv.sources = ['ESPNFC', 'BBC', 'EUROSPORT', 'FOOTBALL-ESPANA', 'FOOTBALL-ITALIA', 'FOOTBALL 365', 'THE GUARDIAN', 'THE INDEPENDENT', 'REDDIT', 'SKY SPORTS', 'TELEGRAPH'];
         srv.mediaSelect = 'REDDIT';
         srv.select1 = 'ESPNFC';
@@ -26,6 +27,7 @@
         srv.popover = 'popover.html';
         srv.layoutSelect = 1;
         srv.mediaSkipCount = 30;
+        srv.articleOpen=articleOpen;
 
         function getGamblerArticles(source1, source2, source3) {
             srv.getArticles(source1).then(function(res) {
@@ -116,6 +118,19 @@
             });
         }
 
+        function addClick(item){
+
+            api.request('/Articles/'+item.id,{},'GET').then(function(res){
+                var count={count:++res.data.count};
+                api.request('/Articles/'+item.id,count,'PUT').then(function(response){
+                });
+            });
+        }
+         function articleOpen(item){
+           addClick(item);
+            $window.open(item.link);
+
+        }
         //streamable only
         // srv.delInvalidLinks = function(arr) {
         //     var deferred = $q.defer();

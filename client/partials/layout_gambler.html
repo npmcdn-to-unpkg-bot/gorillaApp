@@ -14,7 +14,7 @@
                                 <div class="article-wrap">
                                     <div class="article">
                                         <div class="article-inner">
-                                            <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                            <a ng-click="ctrl.artSrv.articleOpen(article)" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
                                             <script type="text/ng-template" id="popover">
                                                 <div><span>{{article.title}}</span></div>
                                             </script>
@@ -46,7 +46,7 @@
                                 <div class="article-wrap">
                                     <div class="article">
                                         <div class="article-inner">
-                                            <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                            <a ng-click="ctrl.artSrv.articleOpen(article)" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
                                             <script type="text/ng-template" id="popover">
                                                 <div><span>{{article.title}}</span></div>
                                             </script>
@@ -78,7 +78,7 @@
                                 <div class="article-wrap">
                                     <div class="article">
                                         <div class="article-inner">
-                                            <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                            <a ng-click="ctrl.artSrv.articleOpen(article)" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
                                             <script type="text/ng-template" id="popover">
                                                 <div><span>{{article.title}}</span></div>
                                             </script>
@@ -101,106 +101,96 @@
     </div>
     <!-- Gallery Slider -->
     <div class="gamb-bottom-half">
-        <uib-carousel id="gamb4" no-wrap="true">
-            <uib-slide ng-repeat="slide in ctrl.slides track by $index" active="slide.active">
-                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
-                    <span ng-if="$last && slide.active" ng-init="ctrl.loadNextMedia()" style="display:none"></span>
-                    <a ng-click="ctrl.mediaOpen(slide[0])">
-                        <div class="media-wrap">
-                            <div class="gradient">
-                                <div class="media-title">
-                                    <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[0].title}}</p>
-                                    <script type="text/ng-template" id="popoverSlider">
-                                        <div><span>{{slide[0].title}}</span></div>
-                                    </script>
+        <div class="row">
+            <uib-carousel id="gamb4" no-wrap="true">
+                <uib-slide ng-repeat="slide in ctrl.slides track by $index" active="slide.active">
+                    <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                        <span ng-if="$last && slide.active" ng-init="ctrl.loadNextMedia()" style="display:none"></span>
+                        <a ng-click="ctrl.mediaOpen(slide[0])">
+                            <div class="media-wrap">
+                                <div class="gradient">
+                                    <div class="media-title">
+                                        <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[0].title}}</p>
+                                        <script type="text/ng-template" id="popoverSlider">
+                                            <div><span>{{slide[0].title}}</span></div>
+                                        </script>
+                                    </div>
                                 </div>
+                                <div class="media-border-hover"></div>
+                                <div class="gradient-top-border"></div>
+                                <img ng-src="{{slide[0].thumbnail}}">
                             </div>
-                            <div class="media-border-hover"></div>
-                            <div class="gradient-top-border"></div>
-                            <img ng-src="{{slide[0].thumbnail}}">
-                        </div>
-                    </a>
-                    <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[0].comments}}" target="_blank"><i class="fa fa-comments"></i>
+                        </a>
+                        <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[0].comments}}" target="_blank"><i class="fa fa-comments"></i>
 </a></div>
-                </div>
-                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
-                    <a ng-click="ctrl.mediaOpen(slide[1])">
-                        <div class="media-wrap">
-                            <div class="gradient">
-                                <div class="media-title">
-                                    <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[1].title}}</p>
-                                    <script type="text/ng-template" id="popoverSlider">
-                                        <div><span>{{slide[1].title}}</span></div>
-                                    </script>
+                    </div>
+                    <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                        <a ng-click="ctrl.mediaOpen(slide[1])">
+                            <div class="media-wrap">
+                                <div class="gradient">
+                                    <div class="media-title">
+                                        <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[1].title}}</p>
+                                        <script type="text/ng-template" id="popoverSlider">
+                                            <div><span>{{slide[1].title}}</span></div>
+                                        </script>
+                                    </div>
                                 </div>
+                                <div class="media-border-hover"></div>
+                                <div class="gradient-top-border"></div>
+                                <img ng-src="{{slide[1].thumbnail}}">
                             </div>
-                            <div class="media-border-hover"></div>
-                            <div class="gradient-top-border"></div>
-                            <img ng-src="{{slide[1].thumbnail}}">
-                        </div>
-                    </a>
-                    <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[1].comments}}" target="_blank"><i class="fa fa-comments"></i>
+                        </a>
+                        <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[1].comments}}" target="_blank"><i class="fa fa-comments"></i>
 </a></div>
-                </div>
-                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
-                    <a ng-click="ctrl.mediaOpen(slide[2])">
-                        <div class="media-wrap">
-                            <div class="gradient">
-                                <div class="media-title">
-                                    <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[2].title}}</p>
-                                    <script type="text/ng-template" id="popoverSlider">
-                                        <div><span>{{slide[2].title}}</span></div>
-                                    </script>
+                    </div>
+                    <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}">
+                        <a ng-click="ctrl.mediaOpen(slide[2])">
+                            <div class="media-wrap">
+                                <div class="gradient">
+                                    <div class="media-title">
+                                        <p uib-popover-template="'popoverSlider'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{slide[2].title}}</p>
+                                        <script type="text/ng-template" id="popoverSlider">
+                                            <div><span>{{slide[2].title}}</span></div>
+                                        </script>
+                                    </div>
                                 </div>
+                                <div class="media-border-hover"></div>
+                                <div class="gradient-top-border"></div>
+                                <img ng-src="{{slide[2].thumbnail}}">
                             </div>
-                            <div class="media-border-hover"></div>
-                            <div class="gradient-top-border"></div>
-                            <img ng-src="{{slide[2].thumbnail}}">
+                        </a>
+                        <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'">
+                            <a href="{{slide[2].comments}}" target="_blank">
+                                <i class="fa fa-comments"></i>
+                            </a>
                         </div>
-                    </a>
-                    <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{slide[2].comments}}" target="_blank"><i class="fa fa-comments"></i>
-</a></div>
-                </div>
-                <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}" ng-if="ctrl.artSrv.mediaSelect=='IG'">
-                    <a ng-click="ctrl.mediaOpen(slide[3])">
-                        <div class="media-wrap">
-                            <div class="gradient">
-                                <div class="media-title">
-                                    <p>{{slide[3].title}}</p>
+                    </div>
+                    <div class="carousel-slide" ng-class="{'ig-gambler':ctrl.artSrv.mediaSelect=='IG'}" ng-if="ctrl.artSrv.mediaSelect=='IG'">
+                        <a ng-click="ctrl.mediaOpen(slide[3])">
+                            <div class="media-wrap">
+                                <div class="gradient">
+                                    <div class="media-title">
+                                        <p>{{slide[3].title}}</p>
+                                    </div>
                                 </div>
+                                <div class="media-border-hover"></div>
+                                <div class="gradient-top-border"></div>
+                                <img ng-src="{{slide[3].thumbnail}}">
                             </div>
-                            <div class="media-border-hover"></div>
-                            <div class="gradient-top-border"></div>
-                            <img ng-src="{{slide[3].thumbnail}}">
-                        </div>
-                    </a>
-                </div>
-            </uib-slide>
-        </uib-carousel>
+                        </a>
+                    </div>
+                </uib-slide>
+            </uib-carousel>
+        </div>
     </div>
 </div>
-<!-- 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-76250451-1', 'auto');
+  ga('send', 'pageview');
 
-
-  <div class="scroll-col gamb-col-container" id='gamb4'>
-            <ul class="media-list u-full-width">
-                <li class="gamb-media " ng-repeat="post in ctrl.media">
-                    <a ng-click="ctrl.mediaOpen(post)">
-                        <div class="media-wrap">
-                            <div class="gradient">
-                                <div class="media-title">
-                                    <p>{{post.title}}</p>
-                                </div>
-                            </div>
-                            <div class="media-border-hover"></div>
-                            <div class="gradient-top-border"></div>
-                            <img ng-src="{{post.thumbnail}}">
-                        </div>
-                    </a>
-                    <div class="comments-icon"><a href="{{post.comments}}" target="_blank"><i class="fa fa-comments"></i>
-</a></div>
-                </li>
-                <span id="lastElement4"></span>
-            </ul>
-        </div> -->
+</script>

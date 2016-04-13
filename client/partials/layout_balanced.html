@@ -7,7 +7,7 @@
                 <div class="col-wrap">
                     <div class="news-selector u-full-width content-col ">
                         <div class="accent"></div>
-                        <div class="option-box" options-box articles="ctrl.articles" select="ctrl.select" load-source="ctrl.loadSource()">
+                        <div class="option-box" ng-class="{'options-open':ctrl.optionsShow}" options-box articles="ctrl.articles" select="ctrl.select" load-source="ctrl.loadSource()">
                         </div>
                     </div>
                     <div class="scroll-col gamb-col-container" id="scrollWindow">
@@ -17,7 +17,7 @@
                                     <div class="article-wrap">
                                         <div class="article">
                                             <div class="article-inner">
-                                                <a ng-href="{{article.link}}" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
+                                                <a ng-click="ctrl.artSrv.articleOpen(article)" target="_blank" uib-popover-template="'popover'" popover-placement="top" popover-append-to-body="true" popover-popup-delay="700" popover-trigger="mouseenter">{{article.title}}</a>
                                                 <script type="text/ng-template" id="popover">
                                                     <div><span>{{article.title}}</span></div>
                                                 </script>
@@ -40,10 +40,15 @@
             </div>
             <!-- RIGHT COLUMN                   -->
             <div class="two-thirds column">
+             <div class="news-selector u-full-width content-col ">
+                      <form ng-submit="ctrl.showSources()">
+                        <span class="glyphicon glyphicon-search"></span>
+                        <input type="text" placeholder="Search" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search'"   ng-model="ctrl.search" ng-change="ctrl.doSearch()"> <span ng-click="ctrl.clearSearch()" ng-show="ctrl.search.length>0" class="glyphicon glyphicon-remove"></span> </form>
+                    </div>
                 <div class="scroll-col gamb-col-container" id="mediaScroll">
-                    <ul class="media-list u-full-width" id="mediaList" scroll-reveal-container='{"viewportFactor": 0.2}'>
-                        <li class="media-entry " ng-class="{'ig-height':ctrl.artSrv.mediaSelect=='IG', }" ng-repeat="post in ctrl.media track by $index" scroll-reveal-repeat parent-class="media-list">
-                            <a ng-href="{{post.link}}" target="_blank">
+                    <ul class="media-list u-full-width" id="mediaList" ng-class="{'fix-media-height': ctrl.media.length<9}">
+                    
+                        <li class="media-entry " ng-class="{'ig-height':ctrl.artSrv.mediaSelect=='IG'}" ng-repeat="post in ctrl.media track by $index" scroll-reveal-repeat>
                                 <a ng-click="ctrl.mediaOpen(post)">
                                     <div class="media-wrap">
                                         <div class="gradient">
@@ -61,7 +66,6 @@
                                 </a>
                             </a>
                             <div class="comments-icon" ng-if="ctrl.artSrv.mediaSelect=='REDDIT'"><a href="{{post.comments}}" target="_blank"><i class="fa fa-comments"></i></a></div>
-                            <div class="accent"></div>
                         </li>
                         <span id="lastMedia"></span>
                     </ul>
@@ -70,3 +74,13 @@
         </div>
     </div>
 </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76250451-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

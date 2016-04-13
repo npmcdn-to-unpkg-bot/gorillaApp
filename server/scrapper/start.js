@@ -57,9 +57,9 @@ module.exports = function(server) {
         var teleTimer = setInterval(function() {
             telegraph(server)
         }, 360000);
-        var igTimer = setInterval(function() {
-            ig(server)
-        }, 600000);
+        // var igTimer = setInterval(function() {
+        //     ig(server)
+        // }, 600000);
 
     }
 };

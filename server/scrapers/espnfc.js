@@ -28,41 +28,41 @@ function scrape(app) {
                     title: '.text-content  a',
                     link: '.text-content  a@href',
                 }])(function(err3, obj3) {
-                    obj3.forEach(function(item) {
-                        item.title = item.title.replace(/\t/g, "").replace(/\n/g, "");
-                    });
+                    if (!err3) {
+                        obj3.forEach(function(item) {
+                            item.title = item.title.replace(/\t/g, "").replace(/\n/g, "");
+                        });
 
-                    links = links.concat(obj3);
-                    scrape('http://www.espnfc.com/', '.home-page-row .grid-item', [{
-                        title: '.text-content a',
-                        link: '.text-content a@href',
+                        links = links.concat(obj3);
+                        scrape('http://www.espnfc.com/', '.home-page-row .grid-item', [{
+                            title: '.text-content a',
+                            link: '.text-content a@href',
 
-                    }])(function(err4, obj4) {
-                        if (err4) {} else {
-                            links = links.concat(obj4.slice(0, 20));
-                            links.reverse();
-                            links.forEach(function(item) {
-                                item.link = item.link.replace(/ /g, "");
-                            });
-                            console.log('links for ESPNFC', links);
-                            author.addAuthor(app, i, function cb() {
-                                i++;
-                                if (i > links.length - 1) {
-                                    request(base_url + '/Articles?filter[where][source]=ESPNFC&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-                                        if (!err) {
-                                            var parsed = JSON.parse(body);
-                                            app.io.emit('_articles', parsed);
-                                        }
-                                    });
-                                    return;
-                                }
-                                return author.addAuthor(app, i, cb, links, Article, '.author a', 'ESPNFC');
-                            }, links, Article, '.author a', 'ESPNFC');
-                        }
-                    });
+                        }])(function(err4, obj4) {
+                            if (err4) {} else {
+                                links = links.concat(obj4.slice(0, 20));
+                                links.reverse();
+                                links.forEach(function(item) {
+                                    item.link = item.link.replace(/ /g, "");
+                                });
+                                console.log('links for ESPNFC', links);
+                                author.addAuthor(app, i, function cb() {
+                                    i++;
+                                    if (i > links.length - 1) {
+                                        request(base_url + '/Articles?filter[where][source]=ESPNFC&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                                            if (!err) {
+                                                var parsed = JSON.parse(body);
+                                                app.io.emit('_articles', parsed);
+                                            }
+                                        });
+                                        return;
+                                    }
+                                    return author.addAuthor(app, i, cb, links, Article, '.author a', 'ESPNFC');
+                                }, links, Article, '.author a', 'ESPNFC');
+                            }
+                        });
 
-
-
+                    }
 
                 });
             }

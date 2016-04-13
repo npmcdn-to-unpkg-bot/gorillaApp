@@ -27,20 +27,30 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-gorilla:before {
+    content: "\e908";
+}
+.icon-arrowDown:before {
+    content: "\e909";
+}
+.icon-feedback:before {
+    content: "\e904";
+}
+.icon-arrowUp:before {
+    content: "\e907";
+}
 .icon-reddit:before {
     content: "\e902";
 }
 .icon-ig:before {
     content: "\e903";
 }
-
 .icon-gambler:before {
     content: "\e901";
 }
 .icon-balanced:before {
     content: "\e900";
 }
-
 
 .bt-icon:before,
 .bt-icon-alt:before {

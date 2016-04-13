@@ -1,0 +1,32 @@
+<div class="feedback">
+<p>I would love to hear feedback of any type. Please send me what you think about the page and any suggestions or bugs you found.  If there is a media outlet you wish to be added to the list of sources please include it in the message. </p>
+<md-content layout-padding="" class="layout-padding">
+    <form name="feedback" class="ng-pristine ng-invalid ng-invalid-required ng-valid-email ng-valid-minlength ng-valid-maxlength ng-invalid-min ng-valid-max ng-invalid-pattern">
+
+      <md-input-container class="md-icon-float md-block">
+        <label class="">Email</label>
+        <md-icon >      <i class="material-icons">email</i>
+</md-icon>
+        <input required="" type="email" name="clientEmail" ng-model="ctrl.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" class="ng-pristine ng-untouched md-input ng-valid-email ng-invalid ng-invalid-required ng-valid-pattern ng-valid-minlength ng-valid-maxlength" id="input_181" aria-required="true" aria-invalid="true"><div class="md-errors-spacer"></div>
+          <div ng-messages="feedback.clientEmail.$error" role="alert" class=" md-input-messages-animation md-auto-hide ng-active" aria-live="assertive">
+          <!-- ngMessageExp: ['required', 'minlength', 'maxlength', 'pattern'] --><div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" class="md-input-message-animation ng-scope">
+            Your email must be between 10 and 100 characters long and look like an e-mail address.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-icon-float md-icon-left md-block">
+          <label>Message</label>
+         <md-icon> <i class="material-icons">message</i></md-icon>
+          <textarea required="" ng-model="ctrl.message" md-maxlength="400" rows="5" md-select-on-focus="" ></textarea>
+        </md-input-container>
+
+
+      <button ng-click="ctrl.submit()">Send</button> 
+      <div ng-show="ctrl.success">
+         <h4>Submitted. Thank You!</h4>
+        </div>
+      </form>
+  </md-content>
+
+  </div>

@@ -25,9 +25,6 @@
 
         enableListeners(ctrl.artSrv.select1, ctrl.artSrv.select2, ctrl.artSrv.select3);
 
-        setTimeout(function() {
-            console.log('proof', ctrl.media);
-        })
 
         function groupSlides(media) {
             var imgPerSlide = ctrl.artSrv.mediaSelect == 'REDDIT' ? 3 : 4;
@@ -43,7 +40,6 @@
 
         setTimeout(function() {
             document.getElementById('gamb1').onscroll = function() {
-                console.log('scrolling1');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement1')) {
                    $('#lastElement1').remove();
                     setTimeout(function() {
@@ -52,7 +48,6 @@
                 }
             }
             document.getElementById('gamb2').onscroll = function() {
-                console.log('scrolling');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement2')) {
                    $('#lastElement2').remove();
                     setTimeout(function() {
@@ -61,7 +56,6 @@
                 }
             }
             document.getElementById('gamb3').onscroll = function() {
-                console.log('scrolling');
                 if (ctrl.artSrv.isScrolledIntoView('#lastElement3')) {
                     $('#lastElement3').remove();
                     setTimeout(function() {
@@ -79,7 +73,6 @@
             ctrl.socket.on('_articles', function(data) {
 
                 if (ctrl.artSrv.select1 == data[0].source) {
-                    console.log('column 1 liveupdated!');
                     ctrl.articles[0] = data.concat(ctrl.articles[0]);
                     ctrl.articles[0].splice(data.length - 1, data.length);
                 }
@@ -89,7 +82,6 @@
             ctrl.socket.on('_articles', function(data) {
                 if (ctrl.artSrv.select2 == data[0].source) {
 
-                    console.log('column 2 liveupdated!');
                     ctrl.articles[1] = data.concat(ctrl.articles[1]);
                     ctrl.articles[1].splice(data.length - 1, data.length);
                 }
@@ -97,37 +89,34 @@
 
             ctrl.socket.on('_articles', function(data) {
                 if (ctrl.artSrv.select3 == data[0].source) {
-                console.log('column 3 liveupdated!');
 
                     ctrl.articles[2] = data.concat(ctrl.articles[2]);
                     ctrl.articles[2].splice(data.length - 1, data.length);
                 }
             });
 
+            // ctrl.socket.on('socket_media', function(data) {
+            //     console.log('NEW MEDIA COMING!', data);
+            //     if (ctrl.artSrv.mediaSelect == data.source) {
+            //         var hasAdded = false;
+            //         ctrl.media.forEach(function(item) {
+            //             if (item.link == data.link) {
+            //                 hasAdded = true;
+            //             }
+            //         });
+            //         if (hasAdded == false) {
+            //             ctrl.media.unshift(data);
+            //         }
+            //         var slidesToCut = ctrl.slides.length;
+            //         groupSlides(ctrl.media);
+            //         ctrl.slides.splice(0, slidesToCut);
 
-            ctrl.socket.on('socket_media', function(data) {
-                console.log('NEW MEDIA COMING!', data);
-                if (ctrl.artSrv.mediaSelect == data.source) {
-                    var hasAdded = false;
-                    ctrl.media.forEach(function(item) {
-                        if (item.link == data.link) {
-                            hasAdded = true;
-                        }
-                    });
-                    if (hasAdded == false) {
-                        ctrl.media.unshift(data);
-                    }
-                    var slidesToCut = ctrl.slides.length;
-                    groupSlides(ctrl.media);
-                    ctrl.slides.splice(0, slidesToCut);
-
-                }
-            });
+            //     }
+            // });
         }
 
 
         function loadNextMedia() {
-            console.log('LOAD NEXT MEDIA HIT');
             if (ctrl.artSrv.mediaSelect == 'REDDIT') {
                 ctrl.api.request('/Media?filter[skip]=' + ctrl.artSrv.mediaSkipCount + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
                     groupSlides(res.data);
@@ -145,7 +134,6 @@
                         } else {
                             var thumb = item.thumbnail.url;
                         }
-                        console.log('title about to be assembled', item.title, 'thumbnail: ', item.thumbnail);
                         return {
                             title: item.title,
                             source: item.source,
@@ -159,7 +147,6 @@
                         if (item.title.length > 48) {
                             item.title = item.title.substr(0, 48) + '...';
                         }
-                        console.log('social title:', item.title);
 
                     });
 
@@ -192,16 +179,12 @@
         }
 
         function loadNext(listNum) {
-            console.log('trying to load next for col ',listNum)
             ctrl.selected = [ctrl.artSrv.select1, ctrl.artSrv.select2, ctrl.artSrv.select3];
             var toLoad = ctrl.selected[listNum - 1];
             ctrl.api.request('/Articles?filter[where][source]=' + toLoad + '&filter[skip]=' + ctrl.skipCount[listNum - 1] + '&filter[order]=createdAt%20DESC&filter[limit]=30', {}, 'GET').then(function(res) {
-                console.log('res data',res.data);
                 ctrl.articles[listNum - 1] = ctrl.articles[listNum - 1].concat(res.data);
                 ctrl.skipCount[listNum - 1] += 30;
-                console.log('articles after loadnext',ctrl.articles[listNum-1]);
                 if (listNum == 1) {
-                    console.log('appending');
                     $('#gamb1').append('<span id="lastElement1"></span>');
                 }
 
@@ -260,7 +243,6 @@
             return ctrl.artSrv.media;
         }, function() {
             ctrl.media = ctrl.artSrv.media;
-            console.log('watching artsrv');
             ctrl.slides = [];
             groupSlides(ctrl.media);
             // ctrl.slides.splice(ctrl.media.length-1,slidesToCut);

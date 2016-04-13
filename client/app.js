@@ -1,5 +1,5 @@
 (function() {
-    angular.module('gorilla', ['ui.router', 'ui.bootstrap', 'ngAnimate']);
+    angular.module('gorilla', ['ui.router', 'ui.bootstrap', 'ngAnimate','ngMaterial','ngMessages']);
 
     angular.module('gorilla')
         .factory('socket', ['$rootScope',

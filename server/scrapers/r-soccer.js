@@ -40,7 +40,7 @@ function scrape(app) {
 
     request('https://www.reddit.com/r/soccer/hot/.json?limit=40', function(err, response, body) {
 
-        if (!(/servers are busy/.test(body)) && !(/unknown error/.test(body)) && body != undefined && !err) {
+        if (!(/servers are busy/.test(body)) && !(/unknown error/.test(body)) && body != undefined && !err && !(/\</.test(body))) {
             var list = JSON.parse(body).data.children;
             var links = [];
             list.forEach(function(item) {
@@ -71,11 +71,11 @@ function scrape(app) {
                     };
 
                     if (/streamable/.test(post.link)) {
-
+                        console.log('thumb for video:',post.link);
                         var shortcode = /[^/]*$/.exec(post.link)[0];
                         request('http://api.streamable.com/videos/' + shortcode, function(err2, res2, body2) {
-                            if(err2){console.log('error caught for video :', shortcode,err2)}
-                            if (!err2) {
+                        
+                            if (!err2 && !(/Video does not/.test(body2))) {
                                 var thumb = JSON.parse(body2);
                                 post.thumbnail = thumb.thumbnail_url;
 
@@ -116,7 +116,7 @@ function scrape(app) {
                 i++;
                 if (i == links.length) {
                     request(base_url + '/Articles?filter[where][source]=REDDIT&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-                        var parsed = JSON.parse(body);
+                      var parsed = JSON.parse(body);
                         app.io.emit('_articles', parsed);
                     });
                     return;

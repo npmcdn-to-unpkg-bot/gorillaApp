@@ -3,12 +3,13 @@
         .controller('navCtrl', NavCtrl)
 
 
-    function NavCtrl($state, artSrv) {
+    function NavCtrl($state, artSrv,$uibModal) {
         var ctrl = this;
         ctrl.$state = $state;
         ctrl.changeLayout = changeLayout;
         ctrl.artSrv = artSrv;
         ctrl.loadMedia=loadMedia;
+        ctrl.sendFeedback=sendFeedback;
 
         function changeLayout(id) {
             if (id == 1) {
@@ -36,6 +37,13 @@
             }
         }
 
+        function sendFeedback(){
+            var modalInstance=$uibModal.open({
+                animation:true,
+                templateUrl: 'partials/feedbackModal.html',
+                controller: 'feedbackCtrl as ctrl'
+            });
+        }
 
         // ---------------------------nav menu ---------------------------------
         (function() {
