@@ -107,12 +107,7 @@
 
                 });
 
-                srv.media.forEach(function(item, i) {
-                    if (item.title.length > 48) {
-                        item.title = item.title.substr(0, 48) + '...';
-                    }
-                });
-               
+              
                     return srv.media;
 
             });

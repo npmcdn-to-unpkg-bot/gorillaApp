@@ -58,10 +58,11 @@
                 api.request('/Media?filter[where][title][like]=' + ctrl.search + '&filter[where][title][options]=i&filter[order]=createdAt%20DESC&filter[limit]=50', {}, 'GET')
                     .then(function(res) {
                         ctrl.media = res.data;
-
                     });
+
             } else {
                 ctrl.media = artSrv.media;
+                ctrl.skipMediaCount=18;
             }
 
         }
@@ -79,7 +80,6 @@
                 $('#scrollList').append('<span id="lastElement"></span>');
 
             });
-
         }
 
         function loadSource() {

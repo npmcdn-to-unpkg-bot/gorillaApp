@@ -556,7 +556,7 @@ md-input-container{
         }
         h4{
             color:green;
-            
+
         }
     }
 }
@@ -864,6 +864,19 @@ ul.options {
 
 
 @media (max-width: 415px) {
+ 
+    .modal-size {
+    width: auto;
+    height: auto;
+}
+.modal-content {
+     width: 375px; 
+    position: absolute;
+    top:100px;
+    /* left: 50%; */
+    transform: translateX(-50%);
+    }
+
       .u-full-width .bal-wrapper {
         width: 100%;
         padding:0;
@@ -872,35 +885,19 @@ ul.options {
         margin-left: 0;
     }
     .col-bal{
-        width:50%;
-        .col-wrap{
-            padding:0;
-            padding-top: 1;
-            width:100%;
-            .option-box{
-                width: 100%;
-
-            }
-            img{
-                width:80%;
-            }
-            .accent{
-                display: none;
-            }
-        }
-        .logo-header{
-            display: block;
-            margin:0 auto;
-        }
+        display: none;
+   
     }
     .row .two-thirds.column{
-        width: 50%;
+        width: 100%!important;
         padding:0;
         padding-top:1;
         margin:0;
         li.media-entry{
             width: 100%;
-            height: 109px;
+            img{
+                height: 246px;
+            }
 
         }
     }

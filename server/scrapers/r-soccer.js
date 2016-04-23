@@ -106,10 +106,8 @@ function scrape(app) {
 
 
                 }
-
-
-
             });
+            
             links.reverse();
 
             addEntry(i, links, function cb() {
