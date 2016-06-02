@@ -50,7 +50,8 @@ function scrape(app) {
                                     i++;
                                     if (i > links.length - 1) {
                                         request(base_url + '/Articles?filter[where][source]=ESPNFC&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-                                            if (!err) {
+                                            if (!err && body) {
+
                                                 var parsed = JSON.parse(body);
                                                 app.io.emit('_articles', parsed);
                                             }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "node .",
+    "start": "node server/server.js 3002",
     "pretest": "jshint .",
     "posttest": "nsp check"
   },
@@ -19,6 +19,8 @@
     "loopback-connector-mongodb": "^1.13.3",
     "loopback-datasource-juggler": "^2.39.0",
     "loopback-ds-timestamp-mixin": "^3.2.2",
+    "mongodb": "^2.1.21",
+    "noodlejs": "^0.3.2",
     "request": "^2.69.0",
     "serve-favicon": "^2.0.1",
     "socket.io": "^1.4.5",

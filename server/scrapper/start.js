@@ -19,7 +19,6 @@ module.exports = function(server) {
         var reddit = require('./../scrapers/r-soccer.js');
         var sky = require('./../scrapers/sky.js');
         var telegraph = require('./../scrapers/telegraph.js');
-        var ig = require('./../scrapers/ig.js');
 
         var redditInterval=20000;
         var interval=120000;
@@ -57,9 +56,7 @@ module.exports = function(server) {
         var teleTimer = setInterval(function() {
             telegraph(server)
         }, 360000);
-        // var igTimer = setInterval(function() {
-        //     ig(server)
-        // }, 600000);
+
 
     }
 };

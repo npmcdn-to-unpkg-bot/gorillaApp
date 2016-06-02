@@ -20,7 +20,7 @@ function scrape(app) {
         };
 
         Article.findOne(where, function(err, instance) {
-           
+
             if (!err && instance != null) {
                 Article.destroyById(instance.id, function(err) {
                     if (!err) {
@@ -73,8 +73,10 @@ function scrape(app) {
                 i++;
                 if (i == links.length) {
                     request(base_url + '/Articles?filter[where][source]=FOOTBALL-ESPANA&filter[order]=createdAt%20DESC&filter[limit]=' + obj.length.toString(), function(err, res, body) {
-                        var parsed = JSON.parse(body);
-                        app.io.emit('_articles', parsed);
+                      if(body)
+                      {var parsed = JSON.parse(body);
+                      app.io.emit('_articles', parsed);}
+
                     });
                     return;
                 }

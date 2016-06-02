@@ -12,7 +12,7 @@ function scrape(app) {
         title: 'a',
         link: 'a@href'
     }])(function(err, obj) {
-       
+
         if (!err) {
             obj.forEach(function(item) {
                 item.title = item.title.replace(/\n/g, "").replace(/Fiver/, "Fiver ").replace(/Sportblog/, "Sportblog ").replace(/WhoScored\?/, "WhoScored? ").replace(/Match previews/,"Match previews ").replace(/Live/,"Live ").replace(/Podcast/,"Podcast ");
@@ -23,8 +23,11 @@ function scrape(app) {
                 i++;
                 if (i > links.length - 1) {
                     request(base_url + '/Articles?filter[where][source]=THE%20GUARDIAN&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                        if(body)
+                        {
                         var parsed = JSON.parse(body);
                         app.io.emit('_articles', parsed);
+                      }
                     });
                     return;
                 }

@@ -59,7 +59,7 @@ function scrape(app) {
 
     }
 
-    // 4 scrapes for 4 different parts of the page 
+    // 4 scrapes for 4 different parts of the page
     scrape('http://www.football365.com/all-the-news', '.hero__figure', [{
         title: '.hero__figcaption h2',
         link: 'a@href'
@@ -92,8 +92,11 @@ function scrape(app) {
                                         i++;
                                         if (i == links.length) {
                                             request(base_url + '/Articles?filter[where][source]=FOOTBALL%20365&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
+                                              if(body)
+                                              {
                                                 var parsed = JSON.parse(body);
                                                 app.io.emit('_articles', parsed);
+                                              }
                                             });
                                             return;
                                         }
