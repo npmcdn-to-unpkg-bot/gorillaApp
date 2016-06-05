@@ -2,8 +2,7 @@ module.exports = function(server) {
     var router = server.loopback.Router();
     var path=require('path');
     server.use(server.loopback.static(path.resolve(__dirname, '../client')));
-    console.log(server.settings.port);
-    if (server.settings.port == 3002) {
+
         server.io.on('connection', function(socket) {
             console.log('a user connected');
             socket.emit('socket_connected',{msg:'socket connected'});
@@ -20,7 +19,7 @@ module.exports = function(server) {
         var sky = require('./../scrapers/sky.js');
         var telegraph = require('./../scrapers/telegraph.js');
 
-        var redditInterval=20000;
+        var redditInterval=10000;
         var interval=120000;
         // TIMERS --------------------
         var espnTimer =   setInterval(function() {
@@ -57,6 +56,4 @@ module.exports = function(server) {
             telegraph(server)
         }, 360000);
 
-
-    }
 };

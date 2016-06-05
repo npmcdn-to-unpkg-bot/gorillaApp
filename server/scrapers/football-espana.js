@@ -50,10 +50,9 @@ function scrape(app) {
                     count: 0
                 }
                 Article.create(item, function(err, res) {
-                    if (err) {
-                    } else {
+
                         cb();
-                    }
+
                 });
             }
 
@@ -73,7 +72,7 @@ function scrape(app) {
                 i++;
                 if (i == links.length) {
                     request(base_url + '/Articles?filter[where][source]=FOOTBALL-ESPANA&filter[order]=createdAt%20DESC&filter[limit]=' + obj.length.toString(), function(err, res, body) {
-                      if(body)
+                      if(JSON.parse(body))
                       {var parsed = JSON.parse(body);
                       app.io.emit('_articles', parsed);}
 

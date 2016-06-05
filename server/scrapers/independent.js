@@ -37,7 +37,7 @@ function scrape(app) {
                         i++;
                         if (i > links.length - 1) {
                             request(base_url + '/Articles?filter[where][source]=THE%20INDEPENDENT&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-                                if(body){
+                                if(JSON.parse(body)){
                                   var parsed = JSON.parse(body);
                                 app.io.emit('_articles', parsed);
                               }

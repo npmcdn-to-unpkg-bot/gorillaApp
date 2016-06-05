@@ -30,13 +30,11 @@ boot(app, __dirname, function(err) {
     // start the server if `$ node server.js`
     if (require.main === module)
     {
-        if(app.settings.port == 3002){
+
             app.io = require('socket.io')(app.start());
             scrapper(app);
-        }
-        else{
-            app.start();
-        }
+
+        
 
     }
 

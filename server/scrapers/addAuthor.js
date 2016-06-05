@@ -79,10 +79,6 @@ var addAuthor = function(app, i, cb, links, article, selector, source) {
                     Article.destroyById(instance.id, function(err) {
                         if (!err) {
                             Article.create(articleInstance, function(err, res) {
-                                if (err) {} else {
-
-                                }
-
                                 cb();
 
                             });

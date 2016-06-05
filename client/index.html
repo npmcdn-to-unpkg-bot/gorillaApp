@@ -11,20 +11,12 @@
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style4.css">
     <link rel="stylesheet" type="text/css" href="assets/css/icons.css">
-    <link rel="icon" 
-      type="image/png" 
+    <link rel="icon"
+      type="image/png"
       href="assets/img/gorillaFav.png">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/vendor/angular.js"></script>
-    <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.1.4/scrollreveal.min.js"></script>
-    <script>
-    window.sr = ScrollReveal({reset:true});
-
-    // Add class to <html> if ScrollReveal is supported
-    if (sr.isSupported()) {
-        document.documentElement.classList.add('sr');
-    }
-    </script>
+  
 
     <script type="text/javascript" src="assets/js/vendor/angular-ui-router.min.js"></script>
     <script src="assets/js/vendor/angular-animate.js"></script>
@@ -33,7 +25,7 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
     <script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
-    <script type="text/javascript" src="http://0.0.0.0:3002/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="http://0.0.0.0:3000/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="controllers/BalancedCtrl.ctrl.js"></script>
     <script type="text/javascript" src="controllers/GamblerCtrl.ctrl.js"></script>
@@ -58,13 +50,13 @@ fbq('init', '225887124439108');
 fbq('track', "PageView");</script>
 
 <!-- facebook tracking pixel
- -->    
+ -->
 </head>
 
 <body ng-app="gorilla">
     <div ui-view>
     </div>
-    
+
 </body>
 
 </html>

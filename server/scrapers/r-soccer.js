@@ -5,6 +5,7 @@ function scrape(app) {
   var base_url = require('./baseurl.js');
   var i = 0;
   var fs = require('fs');
+
   var addEntry = function(i, links, cb) {
 
     var where = {
@@ -40,12 +41,11 @@ function scrape(app) {
   }
 
   request('https://www.reddit.com/r/soccer/hot/.json?limit=40', function(err, response, body) {
-    fs.writeFile('redditLog.txt', response.body, (err) => {
-      if (err) throw err;
-      console.log('It\'s saved!');
-    });
-    if (body.data) {
-      console.log()
+
+
+    if (JSON.parse(body).data) {
+
+      console.log('data exists');
       var list = JSON.parse(body).data.children;
       var links = [];
       list.forEach(function(item) {
@@ -115,11 +115,12 @@ function scrape(app) {
 
       links.reverse();
 
+      console.log('links in order:',links);
       addEntry(i, links, function cb() {
         i++;
         if (i == links.length) {
           request(base_url + '/Articles?filter[where][source]=REDDIT&filter[order]=createdAt%20DESC&filter[limit]=' + links.length.toString(), function(err, res, body) {
-            if(body)
+            if(JSON.parse(body))
             {
             var parsed = JSON.parse(body);
             app.io.emit('_articles', parsed);
@@ -128,6 +129,14 @@ function scrape(app) {
           return;
         }
         return addEntry(i, links, cb);
+      });
+    }
+
+    else
+    {
+      fs.appendFile('erorrsResponse.json', body, (err) => {
+      if (err) throw err;
+        console.log('The "errors" was appended to file!');
       });
     }
 
