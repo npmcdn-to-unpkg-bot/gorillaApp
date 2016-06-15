@@ -19,7 +19,7 @@ module.exports = function(server) {
         var sky = require('./../scrapers/sky.js');
         var telegraph = require('./../scrapers/telegraph.js');
 
-        var redditInterval=10000;
+        var redditInterval=40000;
         var interval=120000;
         // TIMERS --------------------
         var espnTimer =   setInterval(function() {
