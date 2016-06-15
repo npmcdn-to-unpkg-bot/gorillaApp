@@ -45,11 +45,13 @@ function scrape(app) {
           url: 'https://www.reddit.com/r/soccer/hot/.json?limit=40',
           type: 'json',
           selector: '',
+          cache:false,
       })
           .then(function(res) {
               if (!res.results[0].error) {
                 var list = res.results[0].results[0].data.children;
                 var links = [];
+                console.log('links: ', list);
                 list.forEach(function(item) {
                   if (!(/gfycat/.test(item.data.domain)) && !(/streamable/.test(item.data.domain)) && !(/youtu/.test(item.data.domain)) && !(/abload/.test(item.data.domain))) {
                     var post = {
@@ -84,6 +86,7 @@ function scrape(app) {
                           url: 'http://api.streamable.com/videos/' + shortcode,
                           type: 'json',
                           selector: '',
+                          cache:false,
                       })
                       .then(function(res){
                         if (!(/Video does not/.test(res))) {
@@ -112,12 +115,9 @@ function scrape(app) {
                         console.log('Media added', post.title);
                         if (!err) {
                           app.io.emit('socket_media', res);
-
                         }
                       });
                     }
-
-
                   }
                 });
                 links.reverse();
