@@ -7,7 +7,7 @@
 
         function ApiService($http) {
             this.http = $http;
-            this.BASE_URL = 'http://localhost:3000/api';
+            this.BASE_URL = 'http://52.33.85.44:80/api';
             this.request = ApiRequest;
             this.formatGetData = formatGetData;
             this.serialize = serializeData;

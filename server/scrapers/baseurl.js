@@ -1,3 +1,3 @@
-var baseUrl='http://localhost:3000/api';
+var baseUrl='http://52.33.85.44:80/api';
 
 module.exports = baseUrl;

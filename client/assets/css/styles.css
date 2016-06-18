@@ -248,7 +248,7 @@ h1 {
 }
 
 .row .two-thirds.column {
-    width: 70%;
+    width: calc(100% - 420px);
     margin-left: 0;
     height: calc(100% - 50px);
 }
@@ -278,7 +278,7 @@ h1 {
 }
 
 .col-bal {
-    width: 30%;
+    width: 400px;
     height: calc(100% - 50px);
     position: relative;
 }
@@ -467,7 +467,7 @@ li.entry .article-wrap img {
 li.media-entry,
 .gamb-media {
     width: calc(33.33% - 1.33px);
-    height: 220px;
+    height: 36%;
     position: relative;
     list-style-type: none;
     margin-right: 2px;
@@ -559,12 +559,12 @@ md-input-container label:not(.md-no-float):not(._md-container-ignore) {
 }
 
 .modal-size {
-    width: 848;
-    height: 480;
+    width: 100%;
+    height: auto;
 }
 
 .modal-dialog {
-    width: 0%;
+    width: 67%;
     margin: 30px auto;
 }
 
@@ -574,15 +574,15 @@ md-input-container label:not(.md-no-float):not(._md-container-ignore) {
 }
 
 .ig-modal .modal-content {
-    width: 450px;
+    width: 100%;
     height: 100%;
 }
 
 .modal-content {
-    width: auto;
+    width: 100%;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%,10%);
 }
 
 .modal-content .feedback {
@@ -602,6 +602,11 @@ md-input-container label:not(.md-no-float):not(._md-container-ignore) {
 .modal-content .feedback h4 {
     color: green;
 }
+.modal-dialog .modal-content .modal-size .vid-pos .media-container{
+    height: 55.8vw;
+    max-width: 100% !important;
+}
+
 
 .vid-pos {
     position: static;

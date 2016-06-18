@@ -4,7 +4,7 @@
     angular.module('gorilla')
         .factory('socket', ['$rootScope',
             function($rootScope) {
-                var socket = io.connect('http://0.0.0.0:3000');
+                var socket = io.connect('http://52.33.85.44:80');
                 console.log("socket connection established");
                 return {
                     on: function(eventName, callback) {
