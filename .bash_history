@@ -836,3 +836,19 @@ cd ..
 screen
 npm start
 screen
+killall screen
+npm start
+git add .
+sudo git add .
+sudo git commit -m "styling fix"
+sudo git push origin master
+npm start
+screen
+cd server/
+cd scrapers/
+sudo nano r-soccer.js 
+cd ..
+killall screen
+screen
+npm start
+screen
