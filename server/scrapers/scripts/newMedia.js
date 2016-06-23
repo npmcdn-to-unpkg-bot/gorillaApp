@@ -21,26 +21,39 @@ function newMedia(item) {
     if (/streamable/.test(post.link)) {
 
       var shortcode = /[^/]*$/.exec(post.link)[0];
-      noodle.query({
-          url: 'http://api.streamable.com/videos/' + shortcode,
-          type: 'json',
-          selector: '',
-          cache: false,
-        })
-        .then(function(res) {
-          if (!(/Video does not/.test(res))) {
-            var thumb = res.results[0].results[0];
+      request('http://api.streamable.com/videos/' + shortcode, function(err, res, body) {
+        if(!err){
+          if (!(/Video does not/.test(body))) {
+            var thumb = JSON.parse(body);
             post.thumbnail = thumb.thumbnail_url;
+            console.log('THUMB',post.thumbnail);
             Media.create(post, function(err, res) {
               if (!err) {
                 app.io.emit('socket_media', res);
               }
             });
           }
-        })
-        .fail(function(error) {
-          console.log('uh oh error getting thumbnail for streambale', error);
-        });
+        }
+      });
+      // noodle.query({
+      //     url: 'http://api.streamable.com/videos/' + shortcode,
+      //     type: 'json',
+      //     cache: false,
+      //   })
+      //   .then(function(res) {
+      //     if (!(/Video does not/.test(res))) {
+      //       var thumb = res.results[0].results[0];
+      //       post.thumbnail = thumb.thumbnail_url;
+      //       Media.create(post, function(err, res) {
+      //         if (!err) {
+      //           app.io.emit('socket_media', res);
+      //         }
+      //       });
+      //     }
+      //   })
+      //   .fail(function(error) {
+      //     console.log('uh oh error getting thumbnail for streambale', error);
+      //   });
 
     } else {
 
