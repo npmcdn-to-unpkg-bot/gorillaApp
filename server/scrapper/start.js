@@ -15,11 +15,12 @@ module.exports = function(server) {
         var f365 = require('./../scrapers/football365.js');
         var guardian = require('./../scrapers/guardian.js');
         var independent = require('./../scrapers/independent.js');
-        var reddit = require('./../scrapers/r-soccer.js');
+        var redditLinks = require('./../scrapers/reddit-links');
+        var redditMedia=require('./../scrapers/reddit-media');
         var sky = require('./../scrapers/sky.js');
         var telegraph = require('./../scrapers/telegraph.js');
 
-        var redditInterval=40000;
+        var redditInterval=120000;
         var interval=120000;
         // TIMERS --------------------
         var espnTimer =   setInterval(function() {
@@ -47,8 +48,11 @@ module.exports = function(server) {
             independent(server)
         }, interval);
         var redditTimer = setInterval(function() {
-            reddit(server)
+            redditLinks(server)
         }, redditInterval);
+        var redditMediaTimer = setInterval(function() {
+            redditMedia(server)
+        }, 30000);
         var skyTimer = setInterval(function() {
             sky(server)
         }, 500000);

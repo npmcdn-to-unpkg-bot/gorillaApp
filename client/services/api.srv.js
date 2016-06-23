@@ -7,14 +7,14 @@
 
         function ApiService($http) {
             this.http = $http;
-            this.BASE_URL = 'http://52.33.85.44:80/api';
+            this.BASE_URL = 'http://localhost:80/api';
             this.request = ApiRequest;
             this.formatGetData = formatGetData;
             this.serialize = serializeData;
-     
+
             this.mediaOpen = mediaOpen;
             // this.getReddit = getReddit;
-            
+
 
             function mediaOpen(item) {
                 console.log('ITEM LINK ', item.link);
@@ -61,8 +61,8 @@
 
             };
 
- 
-            
+
+
                 function formatGetData(data) {
                     var data_string = '?';
                     for (item in data) {

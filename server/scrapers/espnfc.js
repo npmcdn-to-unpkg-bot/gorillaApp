@@ -45,7 +45,6 @@ function scrape(app) {
                                 links.forEach(function(item) {
                                     item.link = item.link.replace(/ /g, "");
                                 });
-                                console.log('links for ESPNFC', links);
                                 author.addAuthor(app, i, function cb() {
                                     i++;
                                     if (i > links.length - 1) {

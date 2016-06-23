@@ -54,7 +54,6 @@ function scrape(app) {
         if (error) {
         }
         if (!error && response.statusCode == 200) {
-
             JSON.parse(body).forEach(function(item) {
                 links.push({
                     title: item.title.replace(/ /, ""),
