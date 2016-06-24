@@ -55,7 +55,7 @@ module.exports = function(server) {
         }, 30000);
         var skyTimer = setInterval(function() {
             sky(server)
-        }, 500000);
+        }, 3600000);
         var teleTimer = setInterval(function() {
             telegraph(server)
         }, 360000);

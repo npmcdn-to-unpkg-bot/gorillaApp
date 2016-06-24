@@ -35,25 +35,7 @@ function newMedia(item) {
           }
         }
       });
-      // noodle.query({
-      //     url: 'http://api.streamable.com/videos/' + shortcode,
-      //     type: 'json',
-      //     cache: false,
-      //   })
-      //   .then(function(res) {
-      //     if (!(/Video does not/.test(res))) {
-      //       var thumb = res.results[0].results[0];
-      //       post.thumbnail = thumb.thumbnail_url;
-      //       Media.create(post, function(err, res) {
-      //         if (!err) {
-      //           app.io.emit('socket_media', res);
-      //         }
-      //       });
-      //     }
-      //   })
-      //   .fail(function(error) {
-      //     console.log('uh oh error getting thumbnail for streambale', error);
-      //   });
+    
 
     } else {
 

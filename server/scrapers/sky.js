@@ -67,7 +67,8 @@ function scrape(app) {
                     url: link.link,
                     type: 'html',
                     selector: 'h3.article__writer-name',
-                    extract: 'text'
+                    extract: 'text',
+                    cache:false,
                 })
                     .then(function(res) {
                         if (!res.results[0].error) {
